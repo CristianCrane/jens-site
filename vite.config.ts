@@ -12,7 +12,25 @@ const config = defineConfig({
     devtools(),
     tsconfigPaths({ projects: ['./tsconfig.json'] }),
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({
+      // https://tanstack.com/start/latest/docs/framework/react/guide/import-protection#full-configuration-reference
+      importProtection: {
+        // always error, even in dev
+        behavior: 'error',
+        client: {
+          // Block specific npm packages from the client bundle
+          specifiers: [],
+          // Block server files from client
+          files: ['**/server/**'],
+        },
+        server: {
+          // Block browser-only libraries from the server
+          specifiers: [],
+          // Block client files from server
+          files: ['**/client/**'],
+        },
+      },
+    }),
     viteReact(),
   ],
 })
