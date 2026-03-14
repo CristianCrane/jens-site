@@ -2,6 +2,9 @@ import { createRouter as createTanStackRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 
 import './config/validation.ts'
+import { validateEnvironmentVariables } from '#/config/validation.ts'
+
+validateEnvironmentVariables()
 
 export function getRouter() {
   const router = createTanStackRouter({
