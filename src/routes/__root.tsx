@@ -1,12 +1,21 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
+import {
+  createTheme,
+  MantineProvider,
+  ColorSchemeScript,
+  mantineHtmlProps,
+} from '@mantine/core'
 
-import appCss from '../styles.css?url'
+import '@mantine/core/styles.css'
+import '@mantine/dates/styles.css'
+import '@mantine/dropzone/styles.css'
+import '@mantine/carousel/styles.css'
 
-const THEME_INIT_SCRIPT = `(function(){try{var stored=window.localStorage.getItem('theme');var mode=(stored==='light'||stored==='dark'||stored==='auto')?stored:'auto';var prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;var resolved=mode==='auto'?(prefersDark?'dark':'light'):mode;var root=document.documentElement;root.classList.remove('light','dark');root.classList.add(resolved);if(mode==='auto'){root.removeAttribute('data-theme')}else{root.setAttribute('data-theme',mode)}root.style.colorScheme=resolved;}catch(e){}})();`
+const theme = createTheme({
+  /** Put your mantine theme overrides here */
+})
 
 export const Route = createRootRoute({
   head: () => ({
@@ -22,27 +31,19 @@ export const Route = createRootRoute({
         title: 'TanStack Start Starter',
       },
     ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-    ],
   }),
   shellComponent: RootDocument,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" {...mantineHtmlProps}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
+        <ColorSchemeScript />
       </head>
-      <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[rgba(79,184,178,0.24)]">
-        <Header />
-        {children}
-        <Footer />
+      <body>
+        <MantineProvider theme={theme}>{children}</MantineProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',
