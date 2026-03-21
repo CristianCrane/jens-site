@@ -1,31 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AppShell, Burger } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
+import Header from '#/components/Header/Header.tsx'
+import Hero from '#/components/Hero/Hero.tsx'
+import Services from '#/components/Services/Services.tsx'
+import Reviews from '#/components/Reviews/Reviews.tsx'
+import { Box } from '@mantine/core'
 
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
-  const [opened, { toggle }] = useDisclosure()
-
   return (
-    <AppShell
-      padding="md"
-      header={{ height: 60 }}
-      navbar={{
-        width: 300,
-        breakpoint: 'sm',
-        collapsed: { mobile: !opened },
-      }}
-    >
-      <AppShell.Header>
-        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-
-        <div>Logo</div>
-      </AppShell.Header>
-
-      <AppShell.Navbar>Navbar</AppShell.Navbar>
-
-      <AppShell.Main>Main</AppShell.Main>
-    </AppShell>
+    <>
+      <Header />
+      <Hero />
+      <Services />
+      <Reviews />
+      <Box h="20rem" />
+    </>
   )
 }

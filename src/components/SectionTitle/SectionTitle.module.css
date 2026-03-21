@@ -1,0 +1,11 @@
+.title {
+    font-weight: 900;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+@media (min-width: 1024px) {
+    .title {
+        font-size: 1.8rem;
+    }
+}

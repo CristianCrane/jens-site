@@ -1,0 +1,100 @@
+.hero {
+    padding-top: 1rem;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 2rem;
+}
+
+.hero p {
+    font-size: 1rem;
+    margin: 0;
+    padding-top: 1rem;
+}
+
+.hero button {
+    margin-top: 2rem;
+    z-index: 1;
+}
+
+.imgContainer {
+    position: relative;
+    height: 275px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.imgContainer img {
+    position: absolute;
+    top: 0;
+    right: -4rem;
+    width: 375px;
+}
+
+@media (min-width: 375px) {
+    .imgContainer {
+        height: 295px;
+    }
+    .imgContainer img {
+        width: 400px;
+        right: -3rem;
+    }
+}
+
+@media (min-width: 425px) {
+    .imgContainer {
+        height: 365px;
+    }
+
+    .imgContainer img {
+        width: 500px;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+        line-height: 3rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+    }
+
+    .imgContainer {
+        height: 475px;
+    }
+
+    .imgContainer img {
+        width: 650px;
+        top: 0;
+        right: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .imgContainer {
+        height: 580px;
+    }
+
+    .imgContainer img {
+        width: 800px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .imgContainer {
+        height: 470px;
+    }
+
+    .imgContainer img {
+        width: 645px;
+    }
+}

@@ -1,0 +1,47 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.desktopNav {
+    display: none;
+
+}
+
+.phoneLink {
+    display: none;
+    align-items: center;
+    gap: var(--mantine-spacing-sm);
+}
+
+.navButton {
+    display: block;
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+    border-radius: var(--mantine-radius-md);
+    font-weight: 900;
+    white-space: nowrap;
+
+    @mixin hover {
+        background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+    }
+}
+
+.navButton:hover {
+    color: var(--mantine-color-empire-green-text);
+}
+
+@media (min-width: 1024px) {
+    .header {
+        padding: 3rem 0;
+    }
+
+    .phoneLink {
+        display: flex;
+    }
+
+    .desktopNav {
+        display: flex;
+    }
+}

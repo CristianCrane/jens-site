@@ -2,10 +2,9 @@ import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import {
-  createTheme,
-  MantineProvider,
   ColorSchemeScript,
   mantineHtmlProps,
+  MantineProvider,
 } from '@mantine/core'
 
 import '@mantine/core/styles.css'
@@ -13,9 +12,7 @@ import '@mantine/dates/styles.css'
 import '@mantine/dropzone/styles.css'
 import '@mantine/carousel/styles.css'
 
-const theme = createTheme({
-  /** Put your mantine theme overrides here */
-})
+import { theme } from '#/app-theme.ts'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -28,7 +25,22 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Empire Cleaning & Pro Services Inc.',
+      },
+    ],
+    links: [
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossOrigin: 'anonymous',
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap',
       },
     ],
   }),
@@ -42,7 +54,19 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
         <ColorSchemeScript />
       </head>
-      <body>
+      <body
+        style={{
+          margin: 0,
+          minHeight: '100vh',
+          backgroundColor: '#f2f2f2', // Base background color
+          backgroundImage: `radial-gradient(
+            circle at 0% 0%, 
+            rgba(5, 127, 55, 0.2) 0%, 
+            rgba(242, 242, 242, 0) 50%
+          )`,
+          backgroundAttachment: 'fixed',
+        }}
+      >
         <MantineProvider theme={theme}>{children}</MantineProvider>
         <TanStackDevtools
           config={{
