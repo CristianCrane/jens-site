@@ -5,7 +5,7 @@ import classes from './Header.module.css'
 export default function PhoneLink() {
   return (
     <div className={classes.phoneLink}>
-      <ThemeIcon variant="light" radius="xl" size="lg">
+      <ThemeIcon variant="light" radius="xl" size="xl">
         <IconPhone />
       </ThemeIcon>
       <Anchor href="tel:+16463209076" size="xl">

@@ -1,0 +1,16 @@
+section {
+    padding: 2.5rem 0;
+}
+
+h2 {
+    font-weight: 900;
+    font-size: 1.3rem;
+    margin: 0 0 var(--mantine-spacing-lg) 0;
+}
+
+@media (min-width: 1024px) {
+    h2 {
+        font-size: 1.8rem;
+        margin: 0 0 var(--mantine-spacing-xl) 0;
+    }
+}

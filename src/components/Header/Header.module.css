@@ -32,16 +32,14 @@
     color: var(--mantine-color-empire-green-text);
 }
 
-@media (min-width: 1024px) {
-    .header {
-        padding: 3rem 0;
-    }
-
+@media (min-width: 768px) {
     .phoneLink {
         display: flex;
     }
+}
 
-    .desktopNav {
-        display: flex;
+@media (min-width: 1024px) {
+    .header {
+        padding: 3rem 0;
     }
 }

@@ -1,6 +1,4 @@
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 import {
   ColorSchemeScript,
   mantineHtmlProps,
@@ -12,7 +10,7 @@ import '@mantine/dates/styles.css'
 import '@mantine/dropzone/styles.css'
 import '@mantine/carousel/styles.css'
 
-import { theme } from '#/app-theme.ts'
+import { cssVariablesResolver, theme } from '#/app-theme.ts'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -67,18 +65,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           backgroundAttachment: 'fixed',
         }}
       >
-        <MantineProvider theme={theme}>{children}</MantineProvider>
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
+        <MantineProvider
+          theme={theme}
+          cssVariablesResolver={cssVariablesResolver}
+        >
+          {children}
+        </MantineProvider>
         <Scripts />
       </body>
     </html>

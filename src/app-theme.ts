@@ -1,5 +1,8 @@
 import cx from 'clsx'
-import type { MantineBreakpointsValues } from '@mantine/core'
+import type {
+  CSSVariablesResolver,
+  MantineBreakpointsValues,
+} from '@mantine/core'
 import { colorsTuple, Container, createTheme } from '@mantine/core'
 import classes from './App.module.css'
 
@@ -10,6 +13,18 @@ export const breakpoints: MantineBreakpointsValues = {
   lg: '1200px',
   xl: '1400px',
 }
+
+export const cssVariablesResolver: CSSVariablesResolver = () => ({
+  variables: {
+    '--mantine-color-gray-text': '#474747',
+  },
+  light: {
+    '--mantine-color-gray-text': '#474747',
+  },
+  dark: {
+    '--mantine-color-gray-text': '#474747',
+  },
+})
 
 export const theme = createTheme({
   fontFamily: '"Nunito", sans-serif',

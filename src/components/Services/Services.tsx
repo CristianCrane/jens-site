@@ -1,15 +1,13 @@
 import classes from './Services.module.css'
-import { Container } from '@mantine/core'
 import Service from '#/components/Services/Service.tsx'
-import SectionTitle from '#/components/SectionTitle/SectionTitle.tsx'
 import services from '#/components/Services/services-data.tsx'
+import Section from '#/components/Section/Section.tsx'
 
 export default function Services() {
   return (
     <div className={classes.wrapper}>
-      <Container size="responsive">
+      <Section title="Our Services">
         <div className={classes.services}>
-          <SectionTitle>Services</SectionTitle>
           {services.map((service) => (
             <Service
               key={`service-${service.title}`}
@@ -19,7 +17,7 @@ export default function Services() {
             />
           ))}
         </div>
-      </Container>
+      </Section>
     </div>
   )
 }

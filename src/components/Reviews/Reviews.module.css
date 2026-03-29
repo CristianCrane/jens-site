@@ -1,10 +1,8 @@
-.wrapper {
-    /*background-image: radial-gradient(circle at 100% 50%, rgba(5, 127, 55, 0.2) 0%, rgba(242, 242, 242, 0) 30%);*/
-}
+
 
 .card {
     background-color: transparent;
-    background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255, 255, 255, 0.0));
+    background-image: linear-gradient(#fefefe, #f2f2f2);
 }
 
 .indicators {
@@ -48,7 +46,8 @@ blockquote {
     height: 22rem;
     overflow: auto;
     padding: 0 0 var(--mantine-spacing-md) 0;
-    color: var(--mantine-color-gray-8);
+    color: var(--mantine-color-gray-text);
+    user-select: none;
 }
 
 @media (min-width: 375px) {
@@ -78,9 +77,11 @@ blockquote {
     .reviewer {
         gap: var(--mantine-spacing-xl);
     }
+
     cite {
         font-size: var(--mantine-font-size-xl);
     }
+
     .avatar {
         --avatar-size: var(--avatar-size-xl);
     }

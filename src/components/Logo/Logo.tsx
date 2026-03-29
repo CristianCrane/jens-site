@@ -7,7 +7,7 @@ export default function Logo() {
       <Image
         src="/empire-cleaning-and-pro-services-logo-transparent.png"
         alt="Empire Cleaning & Pro Services Inc. Logo"
-        h={60}
+        h={{ base: 60, sm: 70 }}
       />
     </Link>
   )

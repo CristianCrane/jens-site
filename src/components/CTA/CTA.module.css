@@ -1,0 +1,29 @@
+.cta {
+    background-color: var(--mantine-color-empire-green-filled);
+    margin: 2.5rem 0 5rem 0;
+    padding: 1.5rem;
+    text-align: center;
+    color: white;
+    border-radius: 1.8rem;
+}
+
+.cta h3 {
+    font-size: 1.875rem;
+    font-weight: 900;
+    margin: 0;
+}
+
+@media (min-width: 1200px) {
+
+    p {
+        margin: 0;
+    }
+
+    .cta {
+        display: flex;
+        justify-content: space-between;
+        padding: 3rem 5rem;
+        align-items: center;
+        text-align: initial;
+    }
+}

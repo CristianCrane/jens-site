@@ -21,6 +21,7 @@
     "@mantine/dropzone": "^8.3.16",
     "@mantine/form": "^8.3.16",
     "@mantine/hooks": "^8.3.16",
+    "@react-google-maps/api": "^2.20.8",
     "@tabler/icons-react": "^3.40.0",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-router": "latest",
