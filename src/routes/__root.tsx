@@ -11,6 +11,8 @@ import '@mantine/dropzone/styles.css'
 import '@mantine/carousel/styles.css'
 
 import { cssVariablesResolver, theme } from '#/app-theme.ts'
+import Header from '#/components/Header/Header.tsx'
+import Footer from '#/components/Footer/Footer.tsx'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -69,7 +71,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           theme={theme}
           cssVariablesResolver={cssVariablesResolver}
         >
+          <Header />
           {children}
+          <Footer />
         </MantineProvider>
         <Scripts />
       </body>

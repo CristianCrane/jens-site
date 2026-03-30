@@ -1,6 +1,7 @@
 import classes from './CTA.module.css'
 import { Button, Container } from '@mantine/core'
 import { IconGift } from '@tabler/icons-react'
+import { Link } from '@tanstack/react-router'
 
 export default function CTA() {
   return (
@@ -18,6 +19,8 @@ export default function CTA() {
           variant="white"
           leftSection={<IconGift size={28} />}
           radius="lg"
+          component={Link}
+          to="/quote"
         >
           Get Free Quote
         </Button>

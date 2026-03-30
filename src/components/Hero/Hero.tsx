@@ -1,6 +1,7 @@
 import { Button, Container, Grid, Image } from '@mantine/core'
 import { IconGift } from '@tabler/icons-react'
 import classes from './Hero.module.css'
+import { Link } from '@tanstack/react-router'
 
 export default function Hero() {
   return (
@@ -12,7 +13,12 @@ export default function Hero() {
             Get in touch today, and let us make your world a cleaner, healthier
             place.
           </p>
-          <Button leftSection={<IconGift size={28} />} size="lg">
+          <Button
+            leftSection={<IconGift size={28} />}
+            size="lg"
+            component={Link}
+            to="/quote"
+          >
             Get Free Quote
           </Button>
         </Grid.Col>
