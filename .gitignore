@@ -12,3 +12,4 @@ __unconfig*
 todos.json
 .idea
 .vscode
+.env

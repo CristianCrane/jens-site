@@ -5,6 +5,8 @@ import { createServerFn } from '@tanstack/react-start'
 import { Resend } from 'resend'
 import QuoteConfirmationEmail from '../../../emails/QuoteConfirmationEmail.tsx'
 import QuoteRequestEmail from '../../../emails/QuoteRequestEmail.tsx'
+import { db } from '#/db/db.ts'
+import { quotes } from '#/db/schema.ts'
 
 export const clientSchema = z.object({
   jobType: z.string().nonempty('Please select a job type.'),
@@ -79,21 +81,32 @@ export const sendQuoteRequest = createServerFn({ method: 'POST' })
   })
   .handler(async ({ data }) => {
     const resend = new Resend(process.env.RESEND_API_KEY)
+
+    const { images, ...quoteRequest } = data
     try {
-      // todo: integrate a db and save quote, pass the quoteID to the templates
-      await resend.emails.send({
-        from: 'quotes@empirecleaningandpro.com',
-        to: 'empirecleaningproservices@gmail.com',
-        subject: 'Cleaning Service Quote',
-        react: <QuoteConfirmationEmail data={data} />,
-      })
-      await resend.emails.send({
-        from: 'quotes@empirecleaningandpro.com',
-        to: 'empirecleaningproservices@gmail.com',
-        subject: 'New Quote request',
-        react: <QuoteRequestEmail data={data} />,
-      })
-      console.log('Quote sent!')
+      const [result] = await db
+        .insert(quotes)
+        .values({
+          ...quoteRequest,
+        })
+        .returning({
+          id: quotes.id,
+        })
+
+      await Promise.all([
+        resend.emails.send({
+          from: 'quotes@empirecleaningandpro.com',
+          to: data.email,
+          subject: 'Cleaning Service Quote',
+          react: <QuoteConfirmationEmail data={data} />,
+        }),
+        resend.emails.send({
+          from: 'quotes@empirecleaningandpro.com',
+          to: 'empirecleaningproservices@gmail.com',
+          subject: 'New Quote request',
+          react: <QuoteRequestEmail data={data} id={result.id} />,
+        }),
+      ])
     } catch (e) {
       console.error('Failed to send email', e)
     }

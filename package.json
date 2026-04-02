@@ -15,7 +15,9 @@
     "check": "prettier --write . && eslint --fix",
     "email:build": "email build",
     "email:dev": "set EMAIL_ASSETS_BASE_URL=https://raw.githubusercontent.com/CristianCrane/jens-site/main/public&&email dev",
-    "email:export": "email export"
+    "email:export": "email export",
+    "db:push": "npx drizzle-kit push --force",
+    "db:generate": "npx drizzle-kit generate"
   },
   "dependencies": {
     "@mantine/carousel": "^8.3.16",
@@ -24,6 +26,7 @@
     "@mantine/dropzone": "^8.3.16",
     "@mantine/form": "^8.3.16",
     "@mantine/hooks": "^8.3.16",
+    "@neondatabase/serverless": "^1.0.2",
     "@react-email/components": "^1.0.11",
     "@react-google-maps/api": "^2.20.8",
     "@tabler/icons-react": "^3.40.0",
@@ -35,6 +38,8 @@
     "@tanstack/react-start": "latest",
     "@tanstack/router-plugin": "^1.132.0",
     "dayjs": "^1.11.20",
+    "dotenv": "^17.4.0",
+    "drizzle-orm": "^0.45.2",
     "embla-carousel": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "mantine-form-zod-resolver": "^1.3.0",
@@ -54,6 +59,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.1.4",
+    "drizzle-kit": "^0.31.10",
     "jsdom": "^28.1.0",
     "postcss": "^8.5.8",
     "postcss-preset-mantine": "^1.18.0",

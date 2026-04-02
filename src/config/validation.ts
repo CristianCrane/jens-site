@@ -7,6 +7,7 @@ const ServerEnv = z.object({
   EMAIL_ASSETS_BASE_URL: z
     .url('Invalid email assets base URL.')
     .nonempty('Email assets URL missing!'),
+  APP_BASE_URL: z.url('Invalid APP base URL').nonempty(),
 })
 
 const ClientEnv = z.object({

@@ -13,12 +13,14 @@ import {
 import type { FormValues } from '#/components/QuoteForm/utils.tsx'
 
 const baseUrl = process.env.EMAIL_ASSETS_BASE_URL
+const appBaseUrl = process.env.APP_BASE_URL
 
 type QuoteRequestEmailProps = {
   data: FormValues
+  id: string
 }
 
-const QuoteRequestEmail = ({ data }: QuoteRequestEmailProps) => {
+const QuoteRequestEmail = ({ data, id }: QuoteRequestEmailProps) => {
   return (
     <Html>
       <Head>
@@ -81,8 +83,7 @@ const QuoteRequestEmail = ({ data }: QuoteRequestEmailProps) => {
           </Row>
           <Row>
             <Column align="center">
-              {/* todo: deeplink quote ID */}
-              <Button href="https://example.com" style={button}>
+              <Button href={`${appBaseUrl}/quote-calc?id=${id}`} style={button}>
                 Build Quote
               </Button>
             </Column>
