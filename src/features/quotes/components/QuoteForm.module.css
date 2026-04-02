@@ -3,10 +3,6 @@
     position: relative;
 }
 
-.sectionContent > * {
-    margin-bottom: var(--mantine-spacing-lg);
-}
-
 .radioRoot {
     position: relative;
     padding: var(--mantine-spacing-md);

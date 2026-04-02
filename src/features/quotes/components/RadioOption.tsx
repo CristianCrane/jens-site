@@ -1,6 +1,6 @@
+import type { ReactNode } from 'react'
 import { Group, Radio, Text, ThemeIcon } from '@mantine/core'
 import classes from './QuoteForm.module.css'
-import type { ReactNode } from 'react'
 
 type RadioOptionProps = {
   icon: ReactNode

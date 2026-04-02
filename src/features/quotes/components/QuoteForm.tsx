@@ -1,3 +1,5 @@
+import { useMutation } from '@tanstack/react-query'
+import { useServerFn } from '@tanstack/react-start'
 import {
   ActionIcon,
   Alert,
@@ -10,28 +12,27 @@ import {
   LoadingOverlay,
   Radio,
   Text,
-  Textarea,
   TextInput,
+  Textarea,
 } from '@mantine/core'
-import classes from './QuoteForm.module.css'
-import FormSection from '#/components/QuoteForm/FormSection.tsx'
-import Section from '#/components/Section/Section.tsx'
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone'
-import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react'
-import RadioOption from '#/components/QuoteForm/RadioOption.tsx'
-import services from '#/components/Services/services-data.tsx'
 import { useForm } from '@mantine/form'
-import { zod4Resolver } from 'mantine-form-zod-resolver'
-import { useServerFn } from '@tanstack/react-start'
-import type { FormValues } from '#/components/QuoteForm/utils.tsx'
+import { FormSection, Section } from '#/components'
 import {
-  clientSchema,
-  sendQuoteRequest,
-  toFormData,
-} from '#/components/QuoteForm/utils.tsx'
-import { useMutation } from '@tanstack/react-query'
-import { IconInfo } from '@react-email/preview-server/src/components/icons/icon-info.tsx'
-import FormSuccess from '#/components/QuoteForm/FormSuccess.tsx'
+  IconAlertCircle,
+  IconPhoto,
+  IconUpload,
+  IconX,
+} from '@tabler/icons-react'
+import { zod4Resolver } from 'mantine-form-zod-resolver'
+import { services } from '@features/landing-page'
+import { sendQuoteRequest } from '../quotes.server.tsx'
+import type { FormValues } from '../quotes.types.ts'
+import { clientSchema } from '../quotes.types.ts'
+import { toFormData } from '../quotes.utils.tsx'
+import FormSuccess from './FormSuccess.tsx'
+import classes from './QuoteForm.module.css'
+import RadioOption from './RadioOption.tsx'
 
 export default function QuoteForm() {
   const form = useForm<FormValues>({
@@ -238,7 +239,7 @@ export default function QuoteForm() {
               variant="light"
               color="red"
               title="Oops. Something went wrong"
-              icon={<IconInfo />}
+              icon={<IconAlertCircle />}
               mt="2rem"
             >
               Sorry about that! The error has been sent to our team. In the

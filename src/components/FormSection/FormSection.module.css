@@ -1,0 +1,3 @@
+.sectionContent > * {
+    margin-bottom: var(--mantine-spacing-lg);
+}

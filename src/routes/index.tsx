@@ -1,20 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import Hero from '#/components/Hero/Hero.tsx'
-import Services from '#/components/Services/Services.tsx'
-import Reviews from '#/components/Reviews/Reviews.tsx'
-import ServiceAreas from '#/components/ServiceAreas/ServiceAreas.tsx'
-import CTA from '#/components/CTA/CTA.tsx'
+import { LandingPage } from '@features/landing-page'
 
-export const Route = createFileRoute('/')({ component: App })
-
-function App() {
-  return (
-    <>
-      <Hero />
-      <Services />
-      <Reviews />
-      <ServiceAreas />
-      <CTA />
-    </>
-  )
-}
+export const Route = createFileRoute('/')({ component: LandingPage })

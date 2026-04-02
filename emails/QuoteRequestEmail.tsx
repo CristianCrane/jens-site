@@ -10,7 +10,7 @@ import {
   Row,
   Text,
 } from '@react-email/components'
-import type { FormValues } from '#/components/QuoteForm/utils.tsx'
+import type { FormValues } from '@features/quotes'
 
 const baseUrl = process.env.EMAIL_ASSETS_BASE_URL
 const appBaseUrl = process.env.APP_BASE_URL

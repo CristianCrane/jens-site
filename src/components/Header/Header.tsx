@@ -1,5 +1,5 @@
 import { Container } from '@mantine/core'
-import Logo from '#/components/Logo/Logo.tsx'
+import Logo from '#/features/landing-page/Logo/Logo.tsx'
 import classes from './Header.module.css'
 import PhoneLink from '#/components/Header/PhoneLink.tsx'
 

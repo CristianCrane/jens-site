@@ -4,7 +4,18 @@
 const config = {
   semi: false,
   singleQuote: true,
-  trailingComma: "all",
-};
+  trailingComma: 'all',
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
+  importOrder: [
+    "^react$",
+    "^@tanstack/(.*)$",
+    "^@mantine/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^@features/(.*)$",
+    "^@/(.*)$",
+    "^[./]"
+  ],
+  importOrderSortSpecifiers: true
+}
 
-export default config;
+export default config

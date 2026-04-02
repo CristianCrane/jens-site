@@ -1,4 +1,3 @@
-import classes from './QuoteForm.module.css'
 import {
   Card,
   Center,
@@ -9,6 +8,7 @@ import {
   Title,
 } from '@mantine/core'
 import { IconConfetti } from '@tabler/icons-react'
+import classes from './QuoteForm.module.css'
 
 export default function FormSuccess() {
   return (

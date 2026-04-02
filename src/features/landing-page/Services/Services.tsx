@@ -1,6 +1,6 @@
 import classes from './Services.module.css'
-import Service from '#/components/Services/Service.tsx'
-import services from '#/components/Services/services-data.tsx'
+import Service from '#/features/landing-page/Services/Service.tsx'
+import services from '#/features/landing-page/Services/services-data.tsx'
 import Section from '#/components/Section/Section.tsx'
 
 export default function Services() {

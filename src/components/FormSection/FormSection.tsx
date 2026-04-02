@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import { Divider, Title } from '@mantine/core'
-import classes from './QuoteForm.module.css'
+import classes from './FormSection.module.css'
 
 type FormSectionProps = {
   title: string

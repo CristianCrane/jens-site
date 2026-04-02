@@ -1,6 +1,6 @@
 {
   "include": ["**/*.ts", "**/*.tsx", "eslint.config.js", "prettier.config.js", "vite.config.js"],
-  
+
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",
@@ -8,7 +8,8 @@
     "baseUrl": ".",
     "paths": {
       "#/*": ["./src/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@features/*": ["./src/features/*"],
     },
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
