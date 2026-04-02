@@ -1,5 +1,6 @@
 .card {
     padding: var(--mantine-spacing-xl);
+    position: relative;
 }
 
 .sectionContent > * {
@@ -42,4 +43,10 @@
 .radioIcon svg {
     width: 100%;
     height: 100%;
+}
+
+@media (min-width: 1200px) {
+    .card {
+        padding: 4rem;
+    }
 }

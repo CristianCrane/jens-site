@@ -1,6 +1,8 @@
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import {
+  Box,
   ColorSchemeScript,
+  Flex,
   mantineHtmlProps,
   MantineProvider,
 } from '@mantine/core'
@@ -13,6 +15,8 @@ import '@mantine/carousel/styles.css'
 import { cssVariablesResolver, theme } from '#/app-theme.ts'
 import Header from '#/components/Header/Header.tsx'
 import Footer from '#/components/Footer/Footer.tsx'
+import { QueryClient } from '@tanstack/query-core'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -47,6 +51,8 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 })
 
+const queryClient = new QueryClient()
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" {...mantineHtmlProps}>
@@ -71,9 +77,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           theme={theme}
           cssVariablesResolver={cssVariablesResolver}
         >
-          <Header />
-          {children}
-          <Footer />
+          <QueryClientProvider client={queryClient}>
+            <Flex direction="column" mih="100vh">
+              <Header />
+              <Box component="main" style={{ flex: 1 }}>
+                {children}
+              </Box>
+              <Footer />
+            </Flex>
+          </QueryClientProvider>
         </MantineProvider>
         <Scripts />
       </body>

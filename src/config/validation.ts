@@ -3,6 +3,10 @@ import { createIsomorphicFn } from '@tanstack/react-start'
 
 const ServerEnv = z.object({
   DATABASE_URL: z.url('Invalid database URL'),
+  RESEND_API_KEY: z.string().nonempty('Resend API key missing'),
+  EMAIL_ASSETS_BASE_URL: z
+    .url('Invalid email assets base URL.')
+    .nonempty('Email assets URL missing!'),
 })
 
 const ClientEnv = z.object({

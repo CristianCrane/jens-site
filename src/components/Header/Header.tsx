@@ -5,11 +5,11 @@ import PhoneLink from '#/components/Header/PhoneLink.tsx'
 
 export default function Header() {
   return (
-    <Container size="responsive">
-      <div className={classes.header}>
+    <Container size="responsive" w="100%">
+      <header className={classes.header}>
         <Logo />
         <PhoneLink />
-      </div>
+      </header>
     </Container>
   )
 }

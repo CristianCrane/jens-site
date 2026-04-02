@@ -16,6 +16,8 @@ declare global {
     interface ProcessEnv {
       readonly DATABASE_URL: string
       readonly NODE_ENV: 'development' | 'production' | 'test'
+      readonly RESEND_API_KEY: string
+      readonly EMAIL_ASSETS_BASE_URL: string
     }
   }
 }
