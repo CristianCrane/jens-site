@@ -12,7 +12,7 @@ import classes from './QuoteForm.module.css'
 
 export default function FormSuccess() {
   return (
-    <Container size="sm" my="xl">
+    <Container size="sm" my="xl" display="flex">
       <Card radius="xl" classNames={{ root: classes.card }}>
         <Center>
           <Stack align="center">

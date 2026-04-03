@@ -1,4 +1,4 @@
-import classes from './Footer.module.css'
+import type { ReactNode } from 'react'
 import {
   ActionIcon,
   Anchor,
@@ -15,7 +15,7 @@ import {
   IconLocation,
   IconPhone,
 } from '@tabler/icons-react'
-import type { ReactNode } from 'react'
+import classes from './Footer.module.css'
 
 type ContactInfoProps = {
   icon: ReactNode
@@ -95,7 +95,7 @@ export default function Footer() {
                 />
                 <SocialLink
                   href="https://www.yelp.com/biz/empire-cleaning-and-pro-services-queens"
-                  icon={<Image src="/public/yelp-logo.png" alt="Yelp Logo" />}
+                  icon={<Image src="/yelp-logo.png" alt="Yelp Logo" />}
                 />
               </Group>
             </div>

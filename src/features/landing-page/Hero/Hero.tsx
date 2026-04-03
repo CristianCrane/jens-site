@@ -1,11 +1,11 @@
+import { Link } from '@tanstack/react-router'
 import { Button, Container, Grid, Image } from '@mantine/core'
 import { IconGift } from '@tabler/icons-react'
 import classes from './Hero.module.css'
-import { Link } from '@tanstack/react-router'
 
 export default function Hero() {
   return (
-    <Container size="responsive">
+    <Container size="responsive" w="100%">
       <Grid className={classes.hero}>
         <Grid.Col span={{ base: 12, xl: 6 }}>
           <h1>Professional Cleaning Services for Your Home and Business</h1>

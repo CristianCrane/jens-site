@@ -1,22 +1,18 @@
-import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
+import { QueryClient } from '@tanstack/query-core'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import '@mantine/carousel/styles.css'
 import {
-  Box,
   ColorSchemeScript,
-  Flex,
-  mantineHtmlProps,
   MantineProvider,
+  Stack,
+  mantineHtmlProps,
 } from '@mantine/core'
-
 import '@mantine/core/styles.css'
 import '@mantine/dates/styles.css'
 import '@mantine/dropzone/styles.css'
-import '@mantine/carousel/styles.css'
-
 import { cssVariablesResolver, theme } from '#/app-theme.ts'
-import Header from '#/components/Header/Header.tsx'
-import Footer from '#/components/Footer/Footer.tsx'
-import { QueryClient } from '@tanstack/query-core'
-import { QueryClientProvider } from '@tanstack/react-query'
+import { Footer, Header, NotFound } from '#/components'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -49,6 +45,7 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  notFoundComponent: NotFound,
 })
 
 const queryClient = new QueryClient()
@@ -78,13 +75,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           cssVariablesResolver={cssVariablesResolver}
         >
           <QueryClientProvider client={queryClient}>
-            <Flex direction="column" mih="100vh">
+            <Stack mih="100vh" gap={0}>
               <Header />
-              <Box component="main" style={{ flex: 1 }}>
+              <Stack component="main" flex={1} gap={0}>
                 {children}
-              </Box>
+              </Stack>
               <Footer />
-            </Flex>
+            </Stack>
           </QueryClientProvider>
         </MantineProvider>
         <Scripts />

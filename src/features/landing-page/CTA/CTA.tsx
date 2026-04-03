@@ -1,11 +1,11 @@
-import classes from './CTA.module.css'
+import { Link } from '@tanstack/react-router'
 import { Button, Container } from '@mantine/core'
 import { IconGift } from '@tabler/icons-react'
-import { Link } from '@tanstack/react-router'
+import classes from './CTA.module.css'
 
 export default function CTA() {
   return (
-    <Container size="responsive">
+    <Container size="responsive" w="100%">
       <div className={classes.cta}>
         <div>
           <h3>Your Home, Only Happier.</h3>
