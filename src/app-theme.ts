@@ -1,9 +1,10 @@
-import cx from 'clsx'
 import type {
   CSSVariablesResolver,
   MantineBreakpointsValues,
+  MantineColorsTuple,
 } from '@mantine/core'
-import { colorsTuple, Container, createTheme } from '@mantine/core'
+import { Button, Container, createTheme } from '@mantine/core'
+import cx from 'clsx'
 import classes from './App.module.css'
 
 export const breakpoints: MantineBreakpointsValues = {
@@ -26,12 +27,28 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
   },
 })
 
+const empireGreen: MantineColorsTuple = [
+  '#ebfef3',
+  '#d6fce6',
+  '#a8f9c9',
+  '#78f7aa',
+  '#54f690',
+  '#41f57f',
+  '#37f476',
+  '#2cd964',
+  '#21c157',
+  '#057f37',
+]
+
 export const theme = createTheme({
   fontFamily: '"Nunito", sans-serif',
   primaryColor: 'empire-green',
+  cursorType: 'pointer',
+  defaultRadius: 'md',
   colors: {
-    'empire-green': colorsTuple('#057f37'),
+    'empire-green': empireGreen,
   },
+  primaryShade: 9,
   headings: {
     sizes: {
       h2: {
@@ -46,6 +63,11 @@ export const theme = createTheme({
       classNames: (_, { size }) => ({
         root: cx({ [classes.responsiveContainer]: size === 'responsive' }),
       }),
+    }),
+    Button: Button.extend({
+      defaultProps: {
+        size: 'lg',
+      },
     }),
   },
 })

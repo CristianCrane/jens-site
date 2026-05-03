@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
 
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
@@ -22,31 +23,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuotesCreateRoute = QuotesCreateRouteImport.update({
+  id: '/quotes/create',
+  path: '/quotes/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/quote': typeof QuoteRoute
+  '/quotes/create': typeof QuotesCreateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/quote': typeof QuoteRoute
+  '/quotes/create': typeof QuotesCreateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/quote': typeof QuoteRoute
+  '/quotes/create': typeof QuotesCreateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/quote'
+  fullPaths: '/' | '/quote' | '/quotes/create'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/quote'
-  id: '__root__' | '/' | '/quote'
+  to: '/' | '/quote' | '/quotes/create'
+  id: '__root__' | '/' | '/quote' | '/quotes/create'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   QuoteRoute: typeof QuoteRoute
+  QuotesCreateRoute: typeof QuotesCreateRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quotes/create': {
+      id: '/quotes/create'
+      path: '/quotes/create'
+      fullPath: '/quotes/create'
+      preLoaderRoute: typeof QuotesCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   QuoteRoute: QuoteRoute,
+  QuotesCreateRoute: QuotesCreateRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

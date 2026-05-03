@@ -8,7 +8,7 @@ import {
   Title,
 } from '@mantine/core'
 import { IconConfetti } from '@tabler/icons-react'
-import classes from './QuoteForm.module.css'
+import classes from './QuoteRequestForm.module.css'
 
 export default function FormSuccess() {
   return (
@@ -16,7 +16,7 @@ export default function FormSuccess() {
       <Card radius="xl" classNames={{ root: classes.card }}>
         <Center>
           <Stack align="center">
-            <ThemeIcon variant="light" radius="xl" size="5rem">
+            <ThemeIcon variant="outline" radius="xl" size="5rem">
               <IconConfetti style={{ width: '70%', height: '70%' }} />
             </ThemeIcon>
             <Title>Yay! We can’t wait to get started.</Title>

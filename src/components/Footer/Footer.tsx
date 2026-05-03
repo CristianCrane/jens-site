@@ -26,7 +26,7 @@ type ContactInfoProps = {
 function ContactInfo({ icon, href, info }: ContactInfoProps) {
   return (
     <Group gap="sm" wrap="nowrap">
-      <ThemeIcon variant="light" radius="xl" size="xl">
+      <ThemeIcon radius="xl" size="xl" variant="outline">
         {icon}
       </ThemeIcon>
       {href ? (
@@ -65,7 +65,6 @@ export default function Footer() {
               className={classes.logo}
             />
             <div className={classes.details}>
-              <h3>Contact</h3>
               <address>
                 <ContactInfo
                   icon={<IconPhone />}

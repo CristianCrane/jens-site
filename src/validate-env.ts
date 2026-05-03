@@ -1,5 +1,5 @@
-import { z } from 'zod'
 import { createIsomorphicFn } from '@tanstack/react-start'
+import { z } from 'zod'
 
 const ServerEnv = z.object({
   DATABASE_URL: z.url('Invalid database URL'),
@@ -8,6 +8,7 @@ const ServerEnv = z.object({
     .url('Invalid email assets base URL.')
     .nonempty('Email assets URL missing!'),
   APP_BASE_URL: z.url('Invalid APP base URL').nonempty(),
+  CLIENT_NO_REPLY_EMAIL: z.string().nonempty(),
 })
 
 const ClientEnv = z.object({

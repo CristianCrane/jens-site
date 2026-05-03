@@ -15,7 +15,6 @@ export default function Hero() {
           </p>
           <Button
             leftSection={<IconGift size={28} />}
-            size="lg"
             component={Link}
             to="/quote"
           >

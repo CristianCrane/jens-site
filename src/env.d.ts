@@ -19,6 +19,7 @@ declare global {
       readonly RESEND_API_KEY: string
       readonly EMAIL_ASSETS_BASE_URL: string
       readonly APP_BASE_URL: string
+      readonly CLIENT_NO_REPLY_EMAIL: string
     }
   }
 }

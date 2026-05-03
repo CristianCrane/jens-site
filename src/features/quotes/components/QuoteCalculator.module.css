@@ -1,0 +1,28 @@
+.sticky {
+    position: sticky;
+    top: 3rem;
+}
+
+.qtyButton {
+    background-color: var(--mantine-color-gray-light);
+    border-radius: var(--mantine-radius-xl);
+}
+
+.quote {
+    padding: var(--mantine-spacing-lg);
+    border: 1px solid var(--mantine-color-default-border);
+    border-radius: var(--mantine-radius-lg);
+    margin-bottom: var(--mantine-radius-lg);
+}
+
+.quoteHeader {
+    border-bottom: 1px solid var(--mantine-color-default-border);
+    margin: 0 calc(var(--mantine-spacing-lg) * -1);
+    padding: 0 var(--mantine-spacing-lg) var(--mantine-spacing-lg);
+}
+
+.quoteFooter {
+    border-top: 1px solid var(--mantine-color-default-border);
+    margin: 0 calc(var(--mantine-spacing-lg) * -1);
+    padding: var(--mantine-spacing-lg) var(--mantine-spacing-lg) 0;
+}

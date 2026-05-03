@@ -1,59 +1,75 @@
 import { createServerFn } from '@tanstack/react-start'
 import { db, quotes } from '#/db'
+import { validate } from '#/errors'
 import { Resend } from 'resend'
-import { ZodError } from 'zod'
-import { QuoteConfirmationEmail, QuoteRequestEmail } from '../../../emails'
-import { serverSchema } from './quotes.types.ts'
+import {
+  QuoteConfirmationEmail,
+  QuoteEmail,
+  QuoteRequestEmail,
+} from '../../../emails'
+import {
+  createQuoteFormValuesSchema,
+  requestQuoteSchema,
+} from './quotes.types.ts'
+import { calcQuote } from './quotes.utils.ts'
 
-export const sendQuoteRequest = createServerFn({ method: 'POST' })
-  .inputValidator((data) => {
-    if (!(data instanceof FormData)) {
-      throw new Error('Expected form data')
-    }
-
-    try {
-      return serverSchema.parse(data)
-    } catch (error) {
-      if (error instanceof ZodError) {
-        console.error('Zod Error:', error)
-        throw new Error('Quote request error. Failed to parse data', {
-          cause: error,
-        })
-      }
-      throw new Error('Quote request error. Unexpected exception', {
-        cause: error,
-      })
-    }
-  })
+export const createQuote = createServerFn({ method: 'POST' })
+  .inputValidator(validate(createQuoteFormValuesSchema))
   .handler(async ({ data }) => {
+    // todo: database errors
+    const [result] = await db
+      .insert(quotes)
+      .values({
+        ...data,
+      })
+      .returning({
+        id: quotes.id,
+        quoteNumber: quotes.quoteNumber,
+      })
+
+    // todo: resend errors
     const resend = new Resend(process.env.RESEND_API_KEY)
+    await resend.emails.send({
+      from: process.env.CLIENT_NO_REPLY_EMAIL,
+      to: data.email,
+      subject: `Your ${data.jobType} quote`,
+      react: (
+        <QuoteEmail
+          formValues={data}
+          quote={calcQuote(data)}
+          quoteNumber={result.quoteNumber}
+        />
+      ),
+    })
+  })
 
-    const { images, ...quoteRequest } = data
-    try {
-      const [result] = await db
-        .insert(quotes)
-        .values({
-          ...quoteRequest,
-        })
-        .returning({
-          id: quotes.id,
-        })
+export const requestQuote = createServerFn({ method: 'POST' })
+  .inputValidator(validate(requestQuoteSchema))
+  .handler(async ({ data }) => {
+    // todo: database errors
+    const [result] = await db
+      .insert(quotes)
+      .values({
+        ...data,
+      })
+      .returning({
+        id: quotes.id,
+      })
 
-      await Promise.all([
-        resend.emails.send({
-          from: 'quotes@empirecleaningandpro.com',
-          to: data.email,
-          subject: 'Cleaning Service Quote',
-          react: <QuoteConfirmationEmail data={data} />,
-        }),
-        resend.emails.send({
-          from: 'quotes@empirecleaningandpro.com',
-          to: 'empirecleaningproservices@gmail.com',
-          subject: 'New Quote request',
-          react: <QuoteRequestEmail data={data} id={result.id} />,
-        }),
-      ])
-    } catch (e) {
-      console.error('Failed to send email', e)
-    }
+    // todo: resend errors
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    await Promise.all([
+      resend.emails.send({
+        from: process.env.CLIENT_NO_REPLY_EMAIL,
+        to: data.email,
+        subject: 'Cleaning Service QuoteSummary',
+        react: <QuoteConfirmationEmail data={data} />,
+      }),
+      resend.emails.send({
+        from: process.env.CLIENT_NO_REPLY_EMAIL,
+        to: 'empirecleaningproservices@gmail.com', // todo: replace with real email, testing only
+        subject: 'New QuoteSummary request',
+        react: <QuoteRequestEmail formValues={data} quoteId={result.id} />,
+      }),
+    ])
   })

@@ -1,10 +1,10 @@
-import { Anchor, Group } from '@mantine/core'
-import { IconExternalLink } from '@tabler/icons-react'
-import Review from '#/features/landing-page/Reviews/Review.tsx'
 import { Carousel } from '@mantine/carousel'
-import classes from './Reviews.module.css'
-import reviewData from '#/features/landing-page/Reviews/reviews-data.ts'
+import { Anchor, Group } from '@mantine/core'
 import Section from '#/components/Section/Section.tsx'
+import Review from '#/features/landing-page/Reviews/Review.tsx'
+import reviewData from '#/features/landing-page/Reviews/reviews-data.ts'
+import { IconExternalLink } from '@tabler/icons-react'
+import classes from './Reviews.module.css'
 
 export default function Reviews() {
   return (

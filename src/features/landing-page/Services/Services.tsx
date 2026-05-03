@@ -1,20 +1,16 @@
-import classes from './Services.module.css'
-import Service from '#/features/landing-page/Services/Service.tsx'
-import services from '#/features/landing-page/Services/services-data.tsx'
 import Section from '#/components/Section/Section.tsx'
+import { entries } from '#/utils'
+import { serviceConfigs } from '@features/services'
+import ServiceCard from './ServiceCard.tsx'
+import classes from './Services.module.css'
 
 export default function Services() {
   return (
     <div className={classes.wrapper}>
-      <Section title="Our Services">
+      <Section title="Our Services" margin>
         <div className={classes.services}>
-          {services.map((service) => (
-            <Service
-              key={`service-${service.title}`}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-            />
+          {entries(serviceConfigs).map(([service]) => (
+            <ServiceCard key={`service-${service}`} service={service} />
           ))}
         </div>
       </Section>

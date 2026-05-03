@@ -1,36 +1,113 @@
-import { IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import { z } from 'zod'
-import { zfd } from 'zod-form-data'
+import {
+  addons,
+  isHourlyServiceType,
+  isSqftServiceType,
+  roomSizes,
+  rooms,
+  services,
+} from '@features/services'
 
-export const clientSchema = z.object({
-  jobType: z.string().nonempty('Please select a job type.'),
+const jobTypeSchema = z.enum(services)
+
+export const quoteDetailsSchema = z.object({
+  jobType: jobTypeSchema,
   address: z.string().nonempty('Required'),
-  address2: z.string().optional(),
+  address2: z.string().nullable(),
   city: z.string().nonempty('Required'),
   zip: z
     .string()
-    .regex(/^\d{5}(-\d{4})?$/, 'Invalid US ZIP code')
+    .regex(/^\d{5}(-\d{4})?$/, 'Invalid zip code')
     .nonempty('Required'),
   firstName: z.string().nonempty('Required'),
-  lastName: z.string().optional(),
+  lastName: z.string().nullable(),
   phoneNumber: z.string().nonempty('Required'),
   email: z.email().nonempty('Required'),
   jobDescription: z.string().nonempty('Required'),
-  images: z.array(z.file().max(5_000_000).mime(IMAGE_MIME_TYPE)).optional(),
 })
 
-export const serverSchema = zfd.formData({
-  jobType: zfd.text().nonoptional(),
-  address: zfd.text().nonoptional(),
-  address2: zfd.text(),
-  city: zfd.text().nonoptional(),
-  zip: zfd.text().nonoptional(),
-  firstName: zfd.text().nonoptional(),
-  lastName: zfd.text(),
-  phoneNumber: zfd.text().nonoptional(),
-  email: zfd.text().nonoptional(),
-  jobDescription: zfd.text().nonoptional(),
-  images: zfd.repeatable(z.array(zfd.file())),
+export const requestQuoteSchema = quoteDetailsSchema
+
+export type QuoteRequestFormValues = z.infer<typeof quoteDetailsSchema>
+
+export const roomQuoteFormValueSchema = z.object({
+  qty: z.number().positive(),
+  name: z.enum(rooms),
+  size: z.enum(roomSizes),
 })
 
-export type FormValues = z.infer<typeof clientSchema>
+export const addonQuoteFormValueSchema = z.object({
+  qty: z.number().positive(),
+  name: z.enum(addons),
+})
+
+export const quoteItemSchema = z.object({
+  name: z.string().nonempty(),
+  description: z.string().nonempty().optional(),
+  qty: z.number(),
+  price: z.number(),
+})
+
+export type QuoteSummaryItem = z.infer<typeof quoteItemSchema>
+
+export const quoteSchema = z.object({
+  items: z.array(quoteItemSchema),
+  subtotal: z.number().nonnegative(),
+  taxes: z.number().nonnegative(),
+  total: z.number().nonnegative(),
+})
+
+export type Quote = z.infer<typeof quoteSchema>
+
+export const createQuoteFormValuesSchema = quoteDetailsSchema
+  .extend({
+    rooms: z.array(roomQuoteFormValueSchema),
+    addons: z.array(addonQuoteFormValueSchema),
+    sqft: z.number(),
+  })
+  .refine(
+    (data) => {
+      if (
+        isHourlyServiceType(data.jobType) &&
+        !data.rooms.length &&
+        !data.addons.length
+      ) {
+        return false
+      }
+      return true
+    },
+    {
+      path: ['rooms'],
+      message: 'At least 1 room or addon is required.',
+    },
+  )
+  .refine(
+    (data) => {
+      if (
+        isHourlyServiceType(data.jobType) &&
+        !data.rooms.length &&
+        !data.addons.length
+      ) {
+        return false
+      }
+      return true
+    },
+    {
+      path: ['addons'],
+      message: 'At least 1 room or addon is required.',
+    },
+  )
+  .refine(
+    (data) => {
+      if (isSqftServiceType(data.jobType) && !data.sqft) {
+        return false
+      }
+      return true
+    },
+    {
+      path: ['sqft'],
+      message: 'Required',
+    },
+  )
+
+export type CreateQuoteFormValues = z.infer<typeof createQuoteFormValuesSchema>

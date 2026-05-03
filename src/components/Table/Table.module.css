@@ -1,0 +1,31 @@
+.scrollArea {
+    border-radius: var(--mantine-radius-md);
+    background-color: white;
+}
+
+.table {
+    background-color: white;
+    border-radius: var(--mantine-radius-md);
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    background-color: var(--mantine-color-gray-1);
+    transition: box-shadow 150ms ease;
+    border-top-left-radius: var(--mantine-radius-md);
+    border-top-right-radius: var(--mantine-radius-md);
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-bottom: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-3));
+    }
+}
+
+.scrolled {
+    box-shadow: var(--mantine-shadow-sm);
+}

@@ -1,14 +1,15 @@
 import { Text, ThemeIcon, Title } from '@mantine/core'
+import type { Service } from '@features/services'
+import { serviceConfigs } from '@features/services'
 import classes from './Services.module.css'
-import type { ReactNode } from 'react'
 
 type ServiceProps = {
-  icon: ReactNode
-  title: string
-  description: string
+  service: Service
 }
 
-export default function Service({ icon, title, description }: ServiceProps) {
+export default function ServiceCard({ service }: ServiceProps) {
+  const Icon = serviceConfigs[service].icon
+  const description = serviceConfigs[service].description
   return (
     <div className={classes.service}>
       <ThemeIcon
@@ -20,10 +21,10 @@ export default function Service({ icon, title, description }: ServiceProps) {
         }}
         styles={{ root: { boxShadow: '0 20px 26px rgba(0,0,0,.04)' } }}
       >
-        {icon}
+        <Icon />
       </ThemeIcon>
       <div className={classes.content}>
-        <Title order={3}>{title}</Title>
+        <Title order={3}>{service}</Title>
         <Text>{description}</Text>
       </div>
     </div>

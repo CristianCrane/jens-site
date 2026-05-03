@@ -9,7 +9,7 @@ import {
   Title,
 } from '@mantine/core'
 
-export default function NotFound() {
+export default function NotFoundView() {
   return (
     <Container size="xs" display="flex" flex={1}>
       <Stack my="auto">
