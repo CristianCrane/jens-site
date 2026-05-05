@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuotesWizardRouteImport } from './routes/quotes/wizard'
 import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
 
 const QuoteRoute = QuoteRouteImport.update({
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuotesWizardRoute = QuotesWizardRouteImport.update({
+  id: '/quotes/wizard',
+  path: '/quotes/wizard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuotesCreateRoute = QuotesCreateRouteImport.update({
   id: '/quotes/create',
   path: '/quotes/create',
@@ -33,30 +39,34 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/quote': typeof QuoteRoute
   '/quotes/create': typeof QuotesCreateRoute
+  '/quotes/wizard': typeof QuotesWizardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/quote': typeof QuoteRoute
   '/quotes/create': typeof QuotesCreateRoute
+  '/quotes/wizard': typeof QuotesWizardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/quote': typeof QuoteRoute
   '/quotes/create': typeof QuotesCreateRoute
+  '/quotes/wizard': typeof QuotesWizardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/quote' | '/quotes/create'
+  fullPaths: '/' | '/quote' | '/quotes/create' | '/quotes/wizard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/quote' | '/quotes/create'
-  id: '__root__' | '/' | '/quote' | '/quotes/create'
+  to: '/' | '/quote' | '/quotes/create' | '/quotes/wizard'
+  id: '__root__' | '/' | '/quote' | '/quotes/create' | '/quotes/wizard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   QuoteRoute: typeof QuoteRoute
   QuotesCreateRoute: typeof QuotesCreateRoute
+  QuotesWizardRoute: typeof QuotesWizardRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quotes/wizard': {
+      id: '/quotes/wizard'
+      path: '/quotes/wizard'
+      fullPath: '/quotes/wizard'
+      preLoaderRoute: typeof QuotesWizardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quotes/create': {
       id: '/quotes/create'
       path: '/quotes/create'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   QuoteRoute: QuoteRoute,
   QuotesCreateRoute: QuotesCreateRoute,
+  QuotesWizardRoute: QuotesWizardRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

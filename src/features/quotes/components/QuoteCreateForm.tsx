@@ -71,7 +71,6 @@ export default function QuoteCreateForm() {
 
   return (
     <form onSubmit={form.onSubmit((values) => mutate(values))}>
-      <pre>{JSON.stringify(form.errors, null, 2)}</pre>
       <Section title="Create Quote">
         <Grid gap={{ base: '2rem', lg: '3rem', xl: '4rem' }}>
           <Grid.Col span={{ base: 12, sm: 6, md: 7, xl: 8 }}>
