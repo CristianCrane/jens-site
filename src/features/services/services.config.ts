@@ -35,47 +35,47 @@ export const roomSizeModifers: Record<RoomSize, number> = {
 }
 
 export const serviceConfigs: Record<Service, ServiceConfig> = {
+  'Residential Cleaning': {
+    icon: IconHome,
+    description:
+      'General maintenance of living areas, kitchens, and bathrooms, including dusting surfaces, mopping floors, and sanitizing high-touch zones.',
+    rateType: 'perHour',
+    rateModifier: 1,
+  },
   'Commercial Cleaning': {
     icon: IconBuilding,
     description:
-      'Enhance workplace hygiene and presentation with our expert commercial cleaning services, ensuring your business environment reflects the highest standards of cleanliness and professionalism.',
+      'Routine upkeep for professional environments, focusing on sanitized restrooms, emptied waste bins, and vacuumed lobby or office floorboards.',
     rateType: 'perSqFt',
     rateModifier: 1,
   },
   'Deep Cleaning': {
     icon: IconSparkles,
     description:
-      'Take your cleanliness to the next level with our professional Deep Cleaning services, leaving no corner or crevice untouched.',
+      'Restoration-level scrubbing of neglected areas like baseboard grime, window tracks, ceiling fan blades, and bathroom grout lines.',
     rateType: 'perHour',
     rateModifier: 1.5,
   },
   'Move in & Move out Cleaning': {
     icon: IconHomeMove,
     description:
-      'Seamless transitions start with our move-in and move-out cleaning services. We ensure a spotless space, setting the stage for a fresh start or a smooth departure.',
+      'Full-interior sterilization of empty homes, including the insides of ovens, refrigerators, kitchen drawers, and bedroom closets.',
     rateType: 'perHour',
     rateModifier: 1.5,
   },
   'Post Construction Cleaning': {
     icon: IconBulldozer,
     description:
-      'Our professional cleaning services ensure a pristine and safe environment after construction, leaving your space ready for occupancy.',
+      'Detailed removal of fine masonry dust, paint droplets, and adhesive residue from windows, vents, and cabinetry following a renovation.',
     rateType: 'perHour',
     rateModifier: 1.5,
   },
   'Power Washing': {
     icon: IconWiperWash,
     description:
-      'Restore surfaces to their prime with our professional power washing services. We bring a high-pressure touch to eliminate grime, mold, and dirt, renewing the beauty of your property.',
+      'Heavy-duty exterior surface cleaning using pressurized water to lift embedded algae, moss, and oil stains from siding or driveways.',
     rateType: 'perSqFt',
     rateModifier: 2,
-  },
-  'Residential Cleaning': {
-    icon: IconHome,
-    description:
-      'Transform your living spaces with our professional residential cleaning services, delivering meticulous care for a spotless and refreshing home environment.',
-    rateType: 'perHour',
-    rateModifier: 1,
   },
 } as const
 

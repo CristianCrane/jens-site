@@ -62,13 +62,13 @@ export const requestQuote = createServerFn({ method: 'POST' })
       resend.emails.send({
         from: process.env.CLIENT_NO_REPLY_EMAIL,
         to: data.email,
-        subject: 'Cleaning Service QuoteSummary',
+        subject: 'We got your request!',
         react: <QuoteConfirmationEmail data={data} />,
       }),
       resend.emails.send({
         from: process.env.CLIENT_NO_REPLY_EMAIL,
         to: 'empirecleaningproservices@gmail.com', // todo: replace with real email, testing only
-        subject: 'New QuoteSummary request',
+        subject: 'New Quote request',
         react: <QuoteRequestEmail formValues={data} quoteId={result.id} />,
       }),
     ])

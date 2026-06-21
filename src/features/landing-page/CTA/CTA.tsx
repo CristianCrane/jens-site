@@ -20,7 +20,7 @@ export default function CTA() {
           leftSection={<IconGift size={28} />}
           radius="lg"
           component={Link}
-          to="/quote"
+          to="/quotes/request"
         >
           Get Free Quote
         </Button>

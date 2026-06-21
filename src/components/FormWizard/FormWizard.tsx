@@ -4,10 +4,11 @@ import { useMutation } from '@tanstack/react-query'
 import {
   Alert,
   Button,
+  Card,
   Divider,
   Group,
-  Paper,
   Stack,
+  Stepper,
   Title,
 } from '@mantine/core'
 import { schemaResolver, useForm } from '@mantine/form'
@@ -61,47 +62,55 @@ export default function FormWizard<
   }
 
   return (
-    <Paper p="xl">
-      <Stack>
-        <form
-          onSubmit={form.onSubmit((values) =>
-            currentStep === finalStep
-              ? mutate(values)
-              : setCurrentStep((prevState) => prevState + 1),
-          )}
-        >
-          <Title ta="center" mb="sm">
-            {steps[currentStep].title}
-          </Title>
-          {steps[currentStep].renderStep(form)}
-          <Divider my="xl" />
-          <Group justify="space-between">
-            <Button
-              disabled={currentStep === 0}
-              variant="outline"
-              onClick={handlePrevious}
-            >
-              Previous
-            </Button>
-            <Button type="submit" loading={isPending}>
-              {currentStep === finalStep
-                ? (onSubmitLabel ?? 'Submit')
-                : 'Continue'}
-            </Button>
-          </Group>
-        </form>
-        {error && (
-          <Alert
-            variant="light"
-            color="red"
-            title="Oops. Something went wrong"
-            icon={<IconAlertCircle />}
-            mt="2rem"
+    <>
+      {/* todo: fix stepper inactive styles, too grey. black maybe? */}
+      <Stepper active={currentStep} mb="lg" size="xs">
+        {steps.map((step) => (
+          <Stepper.Step key={`step-${step.title}`} />
+        ))}
+      </Stepper>
+      <Card p="3rem" mb="3rem">
+        <Stack>
+          <form
+            onSubmit={form.onSubmit((values) =>
+              currentStep === finalStep
+                ? mutate(values)
+                : setCurrentStep((prevState) => prevState + 1),
+            )}
           >
-            {error.message}
-          </Alert>
-        )}
-      </Stack>
-    </Paper>
+            <Title ta="center" mb="xl" size="1.5rem">
+              {steps[currentStep].title}
+            </Title>
+            {steps[currentStep].renderStep(form)}
+            <Divider my="xl" />
+            <Group justify="space-between">
+              <Button
+                disabled={currentStep === 0}
+                variant="outline"
+                onClick={handlePrevious}
+              >
+                Previous
+              </Button>
+              <Button type="submit" loading={isPending}>
+                {currentStep === finalStep
+                  ? (onSubmitLabel ?? 'Submit')
+                  : 'Continue'}
+              </Button>
+            </Group>
+          </form>
+          {error && (
+            <Alert
+              variant="light"
+              color="red"
+              title="Oops. Something went wrong"
+              icon={<IconAlertCircle />}
+              mt="2rem"
+            >
+              {error.message}
+            </Alert>
+          )}
+        </Stack>
+      </Card>
+    </>
   )
 }

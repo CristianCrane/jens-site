@@ -5,7 +5,7 @@ const baseUrl = process.env.EMAIL_ASSETS_BASE_URL
 export default function Logo() {
   return (
     <Row>
-      <Column>
+      <Column align="center">
         <Img
           src={`${baseUrl}/empire-cleaning-and-pro-services-logo-transparent.png`}
           alt="Empire Cleaning and Pro Services Logo"

@@ -16,12 +16,16 @@ const QuoteConfirmationEmail = ({ data }: QuoteConfirmationProps) => {
     <EmailLayout>
       <Logo />
       <Row>
-        <Column valign="top">
-          <Heading style={heroTitle}>We got your quote request!</Heading>
+        <Column>
+          <Heading style={heroTitle}>We got your request!</Heading>
+        </Column>
+      </Row>
+      <Row>
+        <Column>
           <Text>Hi {data.firstName},</Text>
           <Text>
-            We're reviewing the details of your quote and will get back to you
-            shortly.
+            We're currently tidying up your quote and will have a clean estimate
+            in your inbox shortly.
           </Text>
         </Column>
         <Column>

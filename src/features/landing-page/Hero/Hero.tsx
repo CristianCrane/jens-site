@@ -16,7 +16,7 @@ export default function Hero() {
           <Button
             leftSection={<IconGift size={28} />}
             component={Link}
-            to="/quote"
+            to="/quotes/request"
           >
             Get Free Quote
           </Button>
