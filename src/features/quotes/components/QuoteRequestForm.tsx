@@ -2,6 +2,7 @@ import { useServerFn } from '@tanstack/react-start'
 import {
   Container,
   Grid,
+  MaskInput,
   Radio,
   TextInput,
   Textarea,
@@ -120,9 +121,21 @@ export default function QuoteRequestForm() {
                   />
                 </Grid.Col>
                 <Grid.Col span={{ md: 6 }}>
-                  <TextInput
+                  {/* MaskInput is uncontrolled, don't pass value. Use 'onChangeRaw' to update formstate instead. */}
+                  <MaskInput
+                    mask="(999) 999-9999"
+                    placeholder="(___) ___-____"
                     label="Phone Number"
-                    {...form.getInputProps('phoneNumber')}
+                    defaultValue={
+                      form.getInputProps('phoneNumber').defaultValue
+                    }
+                    onBlur={form.getInputProps('phoneNumber').onBlur}
+                    onChange={form.getInputProps('phoneNumber').onChange}
+                    onFocus={form.getInputProps('phoneNumber').onFocus}
+                    error={form.getInputProps('phoneNumber').error}
+                    onChangeRaw={(raw) =>
+                      form.setFieldValue('phoneNumber', raw)
+                    }
                   />
                 </Grid.Col>
                 <Grid.Col span={{ md: 6 }}>

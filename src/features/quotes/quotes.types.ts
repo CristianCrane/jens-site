@@ -21,7 +21,10 @@ export const quoteDetailsSchema = z.object({
     .nonempty('Required'),
   firstName: z.string().nonempty('Required'),
   lastName: z.string().nullable(),
-  phoneNumber: z.string().nonempty('Required'),
+  phoneNumber: z
+    .string()
+    .nonempty('Required')
+    .length(10, 'Invalid phone number'),
   email: z.email().nonempty('Required'),
   jobDescription: z.string().nonempty('Required'),
 })
