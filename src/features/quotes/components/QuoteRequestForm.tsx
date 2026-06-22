@@ -31,9 +31,8 @@ export default function QuoteRequestForm() {
     jobDescription: '',
   }
 
-  // todo: responsive styles, currently fixed width
   return (
-    <Container size="md" w="66rem">
+    <Container size="md" maw="66rem">
       <Title ta="center" mb="lg">
         Request a quote
       </Title>

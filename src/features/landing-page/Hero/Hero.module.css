@@ -1,9 +1,9 @@
 .hero {
-    padding-top: 1rem;
+    padding-top: 2rem;
 }
 
 .hero h1 {
-    margin: 0;
+    margin: 0 0 var(--mantine-spacing-sm) 0;
     font-size: 1.5rem;
     font-weight: 900;
     line-height: 2rem;
@@ -11,8 +11,7 @@
 
 .hero p {
     font-size: 1rem;
-    margin-bottom: var(--mantine-spacing-xl);
-    padding-top: 1rem;
+    margin: 0 0 var(--mantine-spacing-xl) 0;
 }
 
 .hero button {
@@ -55,6 +54,10 @@
 }
 
 @media (min-width: 768px) {
+    .hero {
+        padding-top: 3rem;
+    }
+
     .hero h1 {
         font-size: 2rem;
         line-height: 3rem;
@@ -76,6 +79,10 @@
 }
 
 @media (min-width: 1024px) {
+    .hero {
+        padding-top: 4rem;
+    }
+
     .hero h1 {
         font-size: 2.5rem;
     }
@@ -90,6 +97,10 @@
 }
 
 @media (min-width: 1400px) {
+    .hero {
+        padding-top: 5rem;
+    }
+
     .imgContainer {
         height: 470px;
     }

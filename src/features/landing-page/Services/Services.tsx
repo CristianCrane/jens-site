@@ -1,4 +1,4 @@
-import Section from '#/components/Section/Section.tsx'
+import { Section } from '#/components'
 import { entries } from '#/utils'
 import { serviceConfigs } from '@features/services'
 import ServiceCard from './ServiceCard.tsx'

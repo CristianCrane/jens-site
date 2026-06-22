@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
+    margin-top: 1rem;
 }
 
 .desktopNav {
@@ -35,11 +35,5 @@
 @media (min-width: 768px) {
     .phoneLink {
         display: flex;
-    }
-}
-
-@media (min-width: 1024px) {
-    .header {
-        padding: 3rem 0;
     }
 }
