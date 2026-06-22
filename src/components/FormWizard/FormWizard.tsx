@@ -15,6 +15,7 @@ import { schemaResolver, useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import { IconAlertCircle } from '@tabler/icons-react'
 import type { ZodType } from 'zod'
+import classes from './FormWizard.module.css'
 
 type FormStep<TFormValues> = {
   title: string
@@ -63,8 +64,15 @@ export default function FormWizard<
 
   return (
     <>
-      {/* todo: fix stepper inactive styles, too grey. black maybe? */}
-      <Stepper active={currentStep} mb="lg" size="xs">
+      <Stepper
+        active={currentStep}
+        mb="lg"
+        size="xs"
+        classNames={{
+          stepIcon: classes.stepIcon,
+          separator: classes.separator,
+        }}
+      >
         {steps.map((step) => (
           <Stepper.Step key={`step-${step.title}`} />
         ))}

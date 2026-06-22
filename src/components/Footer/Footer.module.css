@@ -51,9 +51,7 @@ address svg {
 
     .follow {
         grid-area: 2 / 1 / 2 / 4;
-        text-align: center;
         display: flex;
-        justify-content: center;
         gap: 2rem;
     }
 }

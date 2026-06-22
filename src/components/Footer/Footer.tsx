@@ -5,8 +5,10 @@ import {
   Container,
   Group,
   Image,
+  Stack,
   Text,
   ThemeIcon,
+  Title,
 } from '@mantine/core'
 import {
   IconAt,
@@ -25,8 +27,8 @@ type ContactInfoProps = {
 
 function ContactInfo({ icon, href, info }: ContactInfoProps) {
   return (
-    <Group gap="sm" wrap="nowrap">
-      <ThemeIcon radius="xl" size="xl" variant="outline">
+    <Group gap="sm">
+      <ThemeIcon radius="xl" variant="outline">
         {icon}
       </ThemeIcon>
       {href ? (
@@ -47,7 +49,7 @@ type SocialLinkProps = {
 
 function SocialLink({ href, icon }: SocialLinkProps) {
   return (
-    <ActionIcon size="xl" radius="xl" component="a" href={href} target="_blank">
+    <ActionIcon size="lg" radius="xl" component="a" href={href} target="_blank">
       {icon}
     </ActionIcon>
   )
@@ -82,22 +84,29 @@ export default function Footer() {
                 />
               </address>
             </div>
-            <div className={classes.follow}>
-              <Group gap="lg" justify="center" wrap="nowrap">
-                <SocialLink
-                  href="https://www.facebook.com/empirecleaningsvcs3"
-                  icon={<IconBrandFacebook />}
-                />
-                <SocialLink
-                  href="https://www.instagram.com/empirecleaningsvcs3"
-                  icon={<IconBrandInstagram />}
-                />
-                <SocialLink
-                  href="https://www.yelp.com/biz/empire-cleaning-and-pro-services-queens"
-                  icon={<Image src="/yelp-logo.png" alt="Yelp Logo" />}
-                />
-              </Group>
-            </div>
+            <Stack gap="xs">
+              <Title order={4}>Stay fresh with us!</Title>
+              <Text size="sm" c="gray">
+                Follow our socials for cleaning tips, sparkling updates, and
+                occasional squeaky-clean deals.
+              </Text>
+              <div className={classes.follow}>
+                <Group gap="lg" justify="center" wrap="nowrap">
+                  <SocialLink
+                    href="https://www.facebook.com/empirecleaningsvcs3"
+                    icon={<IconBrandFacebook />}
+                  />
+                  <SocialLink
+                    href="https://www.instagram.com/empirecleaningsvcs3"
+                    icon={<IconBrandInstagram />}
+                  />
+                  <SocialLink
+                    href="https://www.yelp.com/biz/empire-cleaning-and-pro-services-queens"
+                    icon={<Image src="/yelp-logo.png" alt="Yelp Logo" />}
+                  />
+                </Group>
+              </div>
+            </Stack>
           </div>
           <div className={classes.copy}>
             <small>

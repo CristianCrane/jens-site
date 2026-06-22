@@ -42,6 +42,10 @@
 }
 
 @media (min-width: 1200px) {
+    .root {
+        max-width: 66rem;
+    }
+
     .card {
         padding: 4rem;
     }

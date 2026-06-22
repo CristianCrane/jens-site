@@ -1,5 +1,6 @@
+import FormSuccess from './components/FormSuccess.tsx'
 import QuoteCreateForm from './components/QuoteCreateForm.tsx'
 import QuoteRequestForm from './components/QuoteRequestForm.tsx'
 
 export * from './quotes.types.ts'
-export { QuoteRequestForm, QuoteCreateForm }
+export { QuoteRequestForm, QuoteCreateForm, FormSuccess }

@@ -1,4 +1,6 @@
+import { Link } from '@tanstack/react-router'
 import {
+  Button,
   Card,
   Center,
   Container,
@@ -12,8 +14,8 @@ import classes from './QuoteRequestForm.module.css'
 
 export default function FormSuccess() {
   return (
-    <Container size="sm" my="xl" display="flex">
-      <Card radius="xl" classNames={{ root: classes.card }}>
+    <Container size="sm" display="flex" flex={1}>
+      <Card radius="xl" my="auto" classNames={{ root: classes.card }}>
         <Center>
           <Stack align="center">
             <ThemeIcon variant="outline" radius="xl" size="5rem">
@@ -25,6 +27,9 @@ export default function FormSuccess() {
               the supplies. Sit tight—we’ll send your custom quote over before
               you know it.
             </Text>
+            <Button variant="outline" component={Link} to="/">
+              Back to home
+            </Button>
           </Stack>
         </Center>
       </Card>

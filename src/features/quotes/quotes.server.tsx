@@ -14,7 +14,7 @@ import {
 import { calcQuote } from './quotes.utils.ts'
 
 export const createQuote = createServerFn({ method: 'POST' })
-  .inputValidator(validate(createQuoteFormValuesSchema))
+  .validator(validate(createQuoteFormValuesSchema))
   .handler(async ({ data }) => {
     // todo: database errors
     const [result] = await db
@@ -44,7 +44,7 @@ export const createQuote = createServerFn({ method: 'POST' })
   })
 
 export const requestQuote = createServerFn({ method: 'POST' })
-  .inputValidator(validate(requestQuoteSchema))
+  .validator(validate(requestQuoteSchema))
   .handler(async ({ data }) => {
     // todo: database errors
     const [result] = await db

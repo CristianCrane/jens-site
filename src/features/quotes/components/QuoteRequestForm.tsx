@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import {
   Container,
@@ -13,10 +14,17 @@ import { serviceConfigs, services } from '@features/services'
 import { requestQuote } from '../quotes.server.tsx'
 import type { QuoteRequestFormValues } from '../quotes.types.ts'
 import { quoteDetailsSchema } from '../quotes.types.ts'
+import classes from './QuoteRequestForm.module.css'
 import RadioOption from './RadioOption.tsx'
 
 export default function QuoteRequestForm() {
+  const navigate = useNavigate()
   const postQuote = useServerFn(requestQuote)
+
+  const onSubmit = async (values: QuoteRequestFormValues) => {
+    await postQuote({ data: values })
+    await navigate({ to: '/quotes/success' })
+  }
 
   const initialValues: QuoteRequestFormValues = {
     jobType: 'Residential Cleaning',
@@ -32,13 +40,19 @@ export default function QuoteRequestForm() {
   }
 
   return (
-    <Container size="md" maw="66rem">
+    <Container
+      size="responsive"
+      w="100%"
+      my={{ base: '2rem', md: '3rem', lg: '4rem', xl: '5rem' }}
+      classNames={{ root: classes.root }}
+    >
       <Title ta="center" mb="lg">
         Request a quote
       </Title>
       <FormWizard
         initialValues={initialValues}
         validationSchema={quoteDetailsSchema}
+        onSubmit={onSubmit}
         steps={[
           {
             title: 'What type of cleaning are you looking for?',
@@ -125,12 +139,7 @@ export default function QuoteRequestForm() {
                     mask="(999) 999-9999"
                     placeholder="(___) ___-____"
                     label="Phone Number"
-                    defaultValue={
-                      form.getInputProps('phoneNumber').defaultValue
-                    }
-                    onBlur={form.getInputProps('phoneNumber').onBlur}
-                    onChange={form.getInputProps('phoneNumber').onChange}
-                    onFocus={form.getInputProps('phoneNumber').onFocus}
+                    defaultValue={form.getInputProps('phoneNumber').value}
                     error={form.getInputProps('phoneNumber').error}
                     onChangeRaw={(raw) =>
                       form.setFieldValue('phoneNumber', raw)
@@ -150,7 +159,7 @@ export default function QuoteRequestForm() {
             }),
             renderStep: (form) => (
               <Textarea
-                label="Job Description"
+                label="Cleaning details"
                 placeholder="(Example) A two bedroom apartment with a kitchen, 2 bathrooms, and a basement with a lot of dust..."
                 autosize
                 minRows={5}
@@ -159,7 +168,6 @@ export default function QuoteRequestForm() {
             ),
           },
         ]}
-        onSubmit={(values) => postQuote({ data: values })}
       />
     </Container>
   )
