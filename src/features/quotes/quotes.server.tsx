@@ -1,7 +1,9 @@
 import { createServerFn } from '@tanstack/react-start'
 import { db, quotes } from '#/db'
 import { validate } from '#/errors'
+import { eq } from 'drizzle-orm'
 import { Resend } from 'resend'
+import { uuid } from 'zod'
 import {
   QuoteConfirmationEmail,
   QuoteEmail,
@@ -9,6 +11,7 @@ import {
 } from '../../../emails'
 import {
   createQuoteFormValuesSchema,
+  editQuoteSchema,
   requestQuoteSchema,
 } from './quotes.types.ts'
 import { calcQuote } from './quotes.utils.ts'
@@ -72,4 +75,29 @@ export const requestQuote = createServerFn({ method: 'POST' })
         react: <QuoteRequestEmail formValues={data} quoteId={result.id} />,
       }),
     ])
+  })
+
+export const getQuote = createServerFn({ method: 'GET' })
+  .validator(validate(uuid()))
+  .handler(async ({ data: quoteId }) => {
+    const [quote] = await db
+      .select()
+      .from(quotes)
+      .where(eq(quotes.id, quoteId))
+      .limit(1)
+
+    return quote ?? null
+  })
+
+export const editQuote = createServerFn({ method: 'POST' })
+  .validator(validate(editQuoteSchema))
+  .handler(async ({ data }) => {
+    const { quoteId, values } = data
+    const [updatedQuote] = await db
+      .update(quotes)
+      .set({ ...values })
+      .where(eq(quotes.id, quoteId))
+      .returning()
+
+    return updatedQuote ?? null
   })

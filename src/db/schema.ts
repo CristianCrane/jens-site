@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm'
 import * as t from 'drizzle-orm/pg-core'
 import { pgEnum, pgTable } from 'drizzle-orm/pg-core'
+import type { QuoteAddon, QuoteRoom } from '@features/quotes'
 import { services } from '@features/services'
 
 const timestamps = {
@@ -39,16 +40,8 @@ export const quotes = pgTable('quotes', {
   phoneNumber: t.text('phone_number').notNull(),
   email: t.text().notNull(),
   jobDescription: t.text('job_description').notNull(),
-  ...timestamps,
-})
-
-export const quoteLineItem = pgTable('quote_line_item', {
-  id: t.uuid().primaryKey().defaultRandom(),
-  quoteId: t
-    .uuid('quote_id')
-    .references(() => quotes.id, { onDelete: 'cascade' }),
-  description: t.text().notNull(),
-  quantity: t.integer().default(1),
-  unitPriceInCents: t.integer().notNull(),
+  rooms: t.jsonb('rooms').$type<QuoteRoom[]>().notNull().default([]),
+  addons: t.jsonb('addons').$type<QuoteAddon[]>().notNull().default([]),
+  sqft: t.integer('sqft').notNull().default(0),
   ...timestamps,
 })

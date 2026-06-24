@@ -39,10 +39,14 @@ export const roomQuoteFormValueSchema = z.object({
   size: z.enum(roomSizes),
 })
 
+export type QuoteRoom = z.infer<typeof roomQuoteFormValueSchema>
+
 export const addonQuoteFormValueSchema = z.object({
   qty: z.number().positive(),
   name: z.enum(addons),
 })
+
+export type QuoteAddon = z.infer<typeof addonQuoteFormValueSchema>
 
 export const quoteItemSchema = z.object({
   name: z.string().nonempty(),
@@ -114,3 +118,11 @@ export const createQuoteFormValuesSchema = quoteDetailsSchema
   )
 
 export type CreateQuoteFormValues = z.infer<typeof createQuoteFormValuesSchema>
+
+export const quoteParamsSchema = z.object({
+  quoteId: z.uuid(),
+})
+
+export const editQuoteSchema = quoteParamsSchema.extend({
+  values: createQuoteFormValuesSchema,
+})

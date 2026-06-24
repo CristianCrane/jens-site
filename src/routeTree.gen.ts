@@ -10,14 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuotesIndexRouteImport } from './routes/quotes/index'
 import { Route as QuotesWizardRouteImport } from './routes/quotes/wizard'
 import { Route as QuotesSuccessRouteImport } from './routes/quotes/success'
 import { Route as QuotesRequestRouteImport } from './routes/quotes/request'
 import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
+import { Route as QuotesQuoteIdIndexRouteImport } from './routes/quotes/$quoteId/index'
+import { Route as QuotesQuoteIdEditRouteImport } from './routes/quotes/$quoteId/edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesIndexRoute = QuotesIndexRouteImport.update({
+  id: '/quotes/',
+  path: '/quotes/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuotesWizardRoute = QuotesWizardRouteImport.update({
@@ -40,6 +48,16 @@ const QuotesCreateRoute = QuotesCreateRouteImport.update({
   path: '/quotes/create',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuotesQuoteIdIndexRoute = QuotesQuoteIdIndexRouteImport.update({
+  id: '/quotes/$quoteId/',
+  path: '/quotes/$quoteId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesQuoteIdEditRoute = QuotesQuoteIdEditRouteImport.update({
+  id: '/quotes/$quoteId/edit',
+  path: '/quotes/$quoteId/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +65,9 @@ export interface FileRoutesByFullPath {
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
   '/quotes/wizard': typeof QuotesWizardRoute
+  '/quotes/': typeof QuotesIndexRoute
+  '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
+  '/quotes/$quoteId/': typeof QuotesQuoteIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +75,9 @@ export interface FileRoutesByTo {
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
   '/quotes/wizard': typeof QuotesWizardRoute
+  '/quotes': typeof QuotesIndexRoute
+  '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
+  '/quotes/$quoteId': typeof QuotesQuoteIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +86,9 @@ export interface FileRoutesById {
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
   '/quotes/wizard': typeof QuotesWizardRoute
+  '/quotes/': typeof QuotesIndexRoute
+  '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
+  '/quotes/$quoteId/': typeof QuotesQuoteIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,6 +98,9 @@ export interface FileRouteTypes {
     | '/quotes/request'
     | '/quotes/success'
     | '/quotes/wizard'
+    | '/quotes/'
+    | '/quotes/$quoteId/edit'
+    | '/quotes/$quoteId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -78,6 +108,9 @@ export interface FileRouteTypes {
     | '/quotes/request'
     | '/quotes/success'
     | '/quotes/wizard'
+    | '/quotes'
+    | '/quotes/$quoteId/edit'
+    | '/quotes/$quoteId'
   id:
     | '__root__'
     | '/'
@@ -85,6 +118,9 @@ export interface FileRouteTypes {
     | '/quotes/request'
     | '/quotes/success'
     | '/quotes/wizard'
+    | '/quotes/'
+    | '/quotes/$quoteId/edit'
+    | '/quotes/$quoteId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,6 +129,9 @@ export interface RootRouteChildren {
   QuotesRequestRoute: typeof QuotesRequestRoute
   QuotesSuccessRoute: typeof QuotesSuccessRoute
   QuotesWizardRoute: typeof QuotesWizardRoute
+  QuotesIndexRoute: typeof QuotesIndexRoute
+  QuotesQuoteIdEditRoute: typeof QuotesQuoteIdEditRoute
+  QuotesQuoteIdIndexRoute: typeof QuotesQuoteIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -102,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes/': {
+      id: '/quotes/'
+      path: '/quotes'
+      fullPath: '/quotes/'
+      preLoaderRoute: typeof QuotesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quotes/wizard': {
@@ -132,6 +178,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuotesCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quotes/$quoteId/': {
+      id: '/quotes/$quoteId/'
+      path: '/quotes/$quoteId'
+      fullPath: '/quotes/$quoteId/'
+      preLoaderRoute: typeof QuotesQuoteIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotes/$quoteId/edit': {
+      id: '/quotes/$quoteId/edit'
+      path: '/quotes/$quoteId/edit'
+      fullPath: '/quotes/$quoteId/edit'
+      preLoaderRoute: typeof QuotesQuoteIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -141,6 +201,9 @@ const rootRouteChildren: RootRouteChildren = {
   QuotesRequestRoute: QuotesRequestRoute,
   QuotesSuccessRoute: QuotesSuccessRoute,
   QuotesWizardRoute: QuotesWizardRoute,
+  QuotesIndexRoute: QuotesIndexRoute,
+  QuotesQuoteIdEditRoute: QuotesQuoteIdEditRoute,
+  QuotesQuoteIdIndexRoute: QuotesQuoteIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
