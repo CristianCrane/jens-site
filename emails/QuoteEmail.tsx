@@ -1,6 +1,6 @@
 import { toCurrencyFormat } from '#/utils'
 import { Column, Heading, Row, Section, Text } from '@react-email/components'
-import type { CreateQuoteFormValues, Quote } from '@features/quotes'
+import type { Quote, QuoteFormValues } from '@features/quotes'
 import ContactFooter from './ContactFooter.tsx'
 import EmailLayout from './EmailLayout.tsx'
 import Logo from './Logo.tsx'
@@ -72,7 +72,7 @@ function QuoteItem({
 }
 
 type QuoteEmailProps = {
-  formValues: CreateQuoteFormValues
+  formValues: QuoteFormValues
   quote: Quote
   quoteNumber: number
 }

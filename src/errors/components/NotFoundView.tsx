@@ -9,7 +9,15 @@ import {
   Title,
 } from '@mantine/core'
 
-export default function NotFoundView() {
+type NotFoundViewProps = {
+  title?: string
+  details?: string
+}
+
+export default function NotFoundView({
+  title = 'Looks like this spot was missed!',
+  details = "We've scrubbed every corner, but we couldn't find the page you're looking for.",
+}: NotFoundViewProps) {
   return (
     <Container size="xs" display="flex" flex={1}>
       <Stack my="auto">
@@ -19,12 +27,9 @@ export default function NotFoundView() {
               404 - Page not found
             </Text>
             <Title size="h3" mb="xs">
-              Looks like this spot was missed!
+              {title}
             </Title>
-            <Text mb="lg">
-              We’ve scrubbed every corner, but we couldn't find the page you’re
-              looking for.
-            </Text>
+            <Text mb="lg">{details}</Text>
             <Button component={Link} to="/" variant="outline">
               Back to Home
             </Button>

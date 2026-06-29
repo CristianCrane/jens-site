@@ -1,6 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import { db, quotes } from '#/db'
-import { validate } from '#/errors'
+import { AppError, validate } from '#/errors'
 import { eq } from 'drizzle-orm'
 import { Resend } from 'resend'
 import { uuid } from 'zod'
@@ -10,17 +10,17 @@ import {
   QuoteRequestEmail,
 } from '../../../emails'
 import {
-  createQuoteFormValuesSchema,
+  QuoteFormValuesSchema,
   editQuoteSchema,
   requestQuoteSchema,
 } from './quotes.types.ts'
 import { calcQuote } from './quotes.utils.ts'
 
 export const createQuote = createServerFn({ method: 'POST' })
-  .validator(validate(createQuoteFormValuesSchema))
+  .validator(validate(QuoteFormValuesSchema))
   .handler(async ({ data }) => {
     // todo: database errors
-    const [result] = await db
+    const [quote] = await db
       .insert(quotes)
       .values({
         ...data,
@@ -30,20 +30,7 @@ export const createQuote = createServerFn({ method: 'POST' })
         quoteNumber: quotes.quoteNumber,
       })
 
-    // todo: resend errors
-    const resend = new Resend(process.env.RESEND_API_KEY)
-    await resend.emails.send({
-      from: process.env.CLIENT_NO_REPLY_EMAIL,
-      to: data.email,
-      subject: `Your ${data.jobType} quote`,
-      react: (
-        <QuoteEmail
-          formValues={data}
-          quote={calcQuote(data)}
-          quoteNumber={result.quoteNumber}
-        />
-      ),
-    })
+    return quote
   })
 
 export const requestQuote = createServerFn({ method: 'POST' })
@@ -93,6 +80,19 @@ export const editQuote = createServerFn({ method: 'POST' })
   .validator(validate(editQuoteSchema))
   .handler(async ({ data }) => {
     const { quoteId, values } = data
+
+    const quote = await getQuote({ data: quoteId })
+    if (quote.quoteStatus === 'sent' || quote.quoteStatus === 'void') {
+      throw new AppError(
+        `Quote has already been sent or cancelled. Please create another.`,
+        {
+          code: 'VALIDATION_ERROR',
+          isOperational: true,
+        },
+      )
+    }
+
+    // todo: db errors
     const [updatedQuote] = await db
       .update(quotes)
       .set({ ...values })
@@ -100,4 +100,43 @@ export const editQuote = createServerFn({ method: 'POST' })
       .returning()
 
     return updatedQuote ?? null
+  })
+
+export const sendQuote = createServerFn({ method: 'POST' })
+  .validator(validate(editQuoteSchema))
+  .handler(async ({ data }) => {
+    const { quoteId } = data
+
+    const quote = await getQuote({ data: quoteId })
+    if (quote.quoteStatus === 'sent' || quote.quoteStatus === 'void') {
+      throw new AppError(
+        `Quote has already been sent or cancelled. Please create another.`,
+        {
+          code: 'VALIDATION_ERROR',
+          isOperational: true,
+        },
+      )
+    }
+
+    // todo: db errors
+    const [sentQuote] = await db
+      .update(quotes)
+      .set({ quoteStatus: 'sent' })
+      .where(eq(quotes.id, quoteId))
+      .returning()
+
+    // todo: resend errors
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    await resend.emails.send({
+      from: process.env.CLIENT_NO_REPLY_EMAIL,
+      to: quote.email,
+      subject: `Your ${sentQuote.jobType} quote`,
+      react: (
+        <QuoteEmail
+          formValues={sentQuote}
+          quote={calcQuote(sentQuote)}
+          quoteNumber={sentQuote.quoteNumber}
+        />
+      ),
+    })
   })

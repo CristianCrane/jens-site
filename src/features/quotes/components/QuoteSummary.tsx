@@ -9,19 +9,32 @@ import {
   Title,
 } from '@mantine/core'
 import { EmptyState } from '#/components'
+import type { QuoteStatus } from '#/db'
 import { toCurrencyFormat } from '#/utils'
-import { IconAlertCircle } from '@tabler/icons-react'
-import type { CreateQuoteFormValues } from '../quotes.types.ts'
-import { calcQuote } from '../quotes.utils.ts'
+import {
+  IconAlertCircle,
+  IconDeviceFloppy,
+  IconMailShare,
+} from '@tabler/icons-react'
+import type { QuoteFormValues } from '../quotes.types.ts'
+import { calcQuote, isQuoteEditable } from '../quotes.utils.ts'
 import classes from './QuoteCalculator.module.css'
 
 type QuoteProps = {
-  values: CreateQuoteFormValues
+  values: QuoteFormValues
   isPending: boolean
   error: Error | null
+  mode: 'view' | 'create' | 'edit'
+  quoteStatus?: QuoteStatus
 }
 
-export default function QuoteSummary({ values, isPending, error }: QuoteProps) {
+export default function QuoteSummary({
+  values,
+  isPending,
+  error,
+  mode,
+  quoteStatus,
+}: QuoteProps) {
   const quote = calcQuote(values)
 
   return (
@@ -75,8 +88,16 @@ export default function QuoteSummary({ values, isPending, error }: QuoteProps) {
             </Text>
           </Group>
         </Stack>
-        <Button type="submit" fullWidth loading={isPending}>
-          Send Quote
+        <Button
+          type="submit"
+          fullWidth
+          loading={isPending}
+          leftSection={
+            mode === 'view' ? <IconMailShare /> : <IconDeviceFloppy />
+          }
+          disabled={!isQuoteEditable(quoteStatus)}
+        >
+          {mode === 'view' ? 'Send Quote' : 'Save Quote'}
         </Button>
         {error && (
           <Alert

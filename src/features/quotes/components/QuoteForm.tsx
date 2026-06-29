@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
+import { Link } from '@tanstack/react-router'
 import {
   ActionIcon,
   Chip,
@@ -9,10 +10,20 @@ import {
   Select,
   TextInput,
   Textarea,
+  Tooltip,
 } from '@mantine/core'
 import { schemaResolver, useForm } from '@mantine/form'
-import { FormSection, Section, Table } from '#/components'
-import { IconPlus, IconTrashX } from '@tabler/icons-react'
+import { FormSection, Table } from '#/components'
+import type { QuoteStatus } from '#/db'
+import {
+  IconEdit,
+  IconMapPin,
+  IconNotes,
+  IconPlus,
+  IconUser,
+  IconX,
+} from '@tabler/icons-react'
+import { isQuoteEditable } from '@features/quotes/quotes.utils.ts'
 import type { Addon, Room } from '@features/services'
 import {
   addons,
@@ -22,29 +33,35 @@ import {
   rooms,
   services,
 } from '@features/services'
-import type { CreateQuoteFormValues } from '../quotes.types.ts'
-import { createQuoteFormValuesSchema } from '../quotes.types.ts'
+import type { QuoteFormValues } from '../quotes.types.ts'
+import { QuoteFormValuesSchema } from '../quotes.types.ts'
 import QuoteSummary from './QuoteSummary.tsx'
 import { SearchOptionsButton } from './SearchOptionsButton.tsx'
 
 type QuoteFormProps = {
-  title: string
-  initialValues: CreateQuoteFormValues
-  onSubmit: (values: CreateQuoteFormValues) => Promise<void>
+  quoteId?: string
+  quoteStatus?: QuoteStatus
+  mode: 'view' | 'create' | 'edit'
+  initialValues: QuoteFormValues
+  onSubmit: (values: QuoteFormValues) => Promise<void>
 }
 
 export default function QuoteForm({
+  quoteId,
   initialValues,
-  title,
   onSubmit,
+  mode,
+  quoteStatus,
 }: QuoteFormProps) {
-  const form = useForm<CreateQuoteFormValues>({
+  const readonly = mode === 'view'
+
+  const form = useForm<QuoteFormValues>({
     initialValues,
-    validate: schemaResolver(createQuoteFormValuesSchema),
+    validate: schemaResolver(QuoteFormValuesSchema),
   })
 
   const { mutate, isPending, error } = useMutation({
-    mutationFn: (values: CreateQuoteFormValues) => onSubmit(values),
+    mutationFn: (values: QuoteFormValues) => onSubmit(values),
   })
 
   form.watch('jobType', ({ previousValue, value }) => {
@@ -55,12 +72,32 @@ export default function QuoteForm({
     }
   })
 
+  const editButton =
+    quoteId && isQuoteEditable(quoteStatus) ? (
+      <Tooltip label="Edit quote">
+        <ActionIcon
+          component={Link}
+          to={`/quotes/${quoteId}/edit`}
+          variant="subtle"
+        >
+          <IconEdit />
+        </ActionIcon>
+      </Tooltip>
+    ) : null
+
   return (
     <form onSubmit={form.onSubmit((values) => mutate(values))}>
-      <Section title={title}>
-        <Grid gap={{ base: '2rem', lg: '3rem', xl: '4rem' }}>
-          <Grid.Col span={{ base: 12, sm: 6, md: 7, xl: 8 }}>
-            <FormSection title="Client details">
+      <Grid gap={{ base: '2rem', lg: '3rem', xl: '4rem' }}>
+        <Grid.Col span={{ base: 12, sm: 6, md: 7, xl: 8 }}>
+          <fieldset
+            disabled={readonly}
+            style={{ border: 'none', margin: 0, padding: 0 }}
+          >
+            <FormSection
+              icon={<IconUser />}
+              title="Client details"
+              action={readonly ? editButton : null}
+            >
               <Grid>
                 <Grid.Col span={{ base: 12, xs: 6, sm: 12, md: 6 }}>
                   <TextInput
@@ -85,7 +122,11 @@ export default function QuoteForm({
                 </Grid.Col>
               </Grid>
             </FormSection>
-            <FormSection title="Job Details">
+            <FormSection
+              icon={<IconMapPin />}
+              title="Job details"
+              action={readonly ? editButton : null}
+            >
               <Grid>
                 <Grid.Col span={{ base: 12, xs: 6, sm: 12, md: 6 }}>
                   <TextInput
@@ -116,7 +157,11 @@ export default function QuoteForm({
                 </Grid.Col>
               </Grid>
             </FormSection>
-            <FormSection title="Quote details">
+            <FormSection
+              icon={<IconNotes />}
+              title="Quote details"
+              action={readonly ? editButton : null}
+            >
               <Grid>
                 <Grid.Col span={{ base: 12, xs: 6, sm: 12 }}>
                   <Select
@@ -135,21 +180,23 @@ export default function QuoteForm({
                         label={
                           <Group align="end" justify="space-between" mb="xs">
                             Rooms
-                            <SearchOptionsButton
-                              data={rooms.map((room) => room)}
-                              label="Room"
-                              placeholder="Search rooms"
-                              icon={<IconPlus />}
-                              onSelectOption={(room) => {
-                                form.insertListItem('rooms', {
-                                  name: room as Room,
-                                  qty: 1,
-                                  size: 'Medium',
-                                })
-                                form.validateField('rooms')
-                                form.validateField('addons')
-                              }}
-                            />
+                            {readonly ? null : (
+                              <SearchOptionsButton
+                                data={rooms.map((room) => room)}
+                                label="Room"
+                                placeholder="Search rooms"
+                                icon={<IconPlus />}
+                                onSelectOption={(room) => {
+                                  form.insertListItem('rooms', {
+                                    name: room as Room,
+                                    qty: 1,
+                                    size: 'Medium',
+                                  })
+                                  form.validateField('rooms')
+                                  form.validateField('addons')
+                                }}
+                              />
+                            )}
                           </Group>
                         }
                         error={form.errors.rooms}
@@ -157,19 +204,24 @@ export default function QuoteForm({
                         <Table
                           name="rooms"
                           data={form.values.rooms}
-                          emptyMessage="No rooms added yet."
+                          emptyMessage="No rooms have been added to this quote."
                           columns={[
                             {
                               header: 'Qty',
                               key: 'qty',
-                              renderCell: (_, index) => (
-                                <NumberInput
-                                  w="4rem"
-                                  min={0}
-                                  max={99}
-                                  {...form.getInputProps(`rooms.${index}.qty`)}
-                                />
-                              ),
+                              renderCell: (value, index) =>
+                                readonly ? (
+                                  value.qty
+                                ) : (
+                                  <NumberInput
+                                    w="4rem"
+                                    min={0}
+                                    max={99}
+                                    {...form.getInputProps(
+                                      `rooms.${index}.qty`,
+                                    )}
+                                  />
+                                ),
                             },
                             {
                               header: 'Room',
@@ -179,40 +231,46 @@ export default function QuoteForm({
                             {
                               header: 'Size',
                               key: 'size',
-                              renderCell: (_, index) => (
-                                <Chip.Group
-                                  multiple={false}
-                                  {...form.getInputProps(`rooms.${index}.size`)}
-                                >
-                                  <Group wrap="nowrap" gap="xs">
-                                    {roomSizes.map((size) => (
-                                      <Chip
-                                        variant="light"
-                                        key={size}
-                                        value={size}
-                                        size="xs"
-                                      >
-                                        {size}
-                                      </Chip>
-                                    ))}
-                                  </Group>
-                                </Chip.Group>
-                              ),
+                              renderCell: (value, index) =>
+                                readonly ? (
+                                  value.size
+                                ) : (
+                                  <Chip.Group
+                                    multiple={false}
+                                    {...form.getInputProps(
+                                      `rooms.${index}.size`,
+                                    )}
+                                  >
+                                    <Group wrap="nowrap" gap="xs">
+                                      {roomSizes.map((size) => (
+                                        <Chip
+                                          variant="light"
+                                          key={size}
+                                          value={size}
+                                          size="xs"
+                                        >
+                                          {size}
+                                        </Chip>
+                                      ))}
+                                    </Group>
+                                  </Chip.Group>
+                                ),
                             },
                             {
-                              header: 'Delete',
+                              header: readonly ? '' : 'Delete',
                               key: 'action',
                               align: 'right',
-                              renderCell: (_, index) => (
-                                <ActionIcon
-                                  variant="transparent"
-                                  onClick={() =>
-                                    form.removeListItem('rooms', index)
-                                  }
-                                >
-                                  <IconTrashX color="var(--mantine-color-gray-6)" />
-                                </ActionIcon>
-                              ),
+                              renderCell: (_, index) =>
+                                readonly ? null : (
+                                  <ActionIcon
+                                    variant="transparent"
+                                    onClick={() =>
+                                      form.removeListItem('rooms', index)
+                                    }
+                                  >
+                                    <IconX color="var(--mantine-color-gray-6)" />
+                                  </ActionIcon>
+                                ),
                             },
                           ]}
                         />
@@ -224,20 +282,22 @@ export default function QuoteForm({
                         label={
                           <Group align="end" justify="space-between" mb="xs">
                             Addons
-                            <SearchOptionsButton
-                              data={addons.map((addon) => addon)}
-                              label="Addon"
-                              placeholder="Search addons"
-                              icon={<IconPlus />}
-                              onSelectOption={(addon) => {
-                                form.insertListItem('addons', {
-                                  name: addon as Addon,
-                                  qty: 1,
-                                })
-                                form.validateField('rooms')
-                                form.validateField('addons')
-                              }}
-                            />
+                            {readonly ? null : (
+                              <SearchOptionsButton
+                                data={addons.map((addon) => addon)}
+                                label="Addon"
+                                placeholder="Search addons"
+                                icon={<IconPlus />}
+                                onSelectOption={(addon) => {
+                                  form.insertListItem('addons', {
+                                    name: addon as Addon,
+                                    qty: 1,
+                                  })
+                                  form.validateField('rooms')
+                                  form.validateField('addons')
+                                }}
+                              />
+                            )}
                           </Group>
                         }
                         error={form.errors.addons}
@@ -245,19 +305,24 @@ export default function QuoteForm({
                         <Table
                           name="addons"
                           data={form.values.addons}
-                          emptyMessage="No addons added yet."
+                          emptyMessage="No addons have been added to this quote."
                           columns={[
                             {
                               header: 'Qty',
                               key: 'qty',
-                              renderCell: (_, index) => (
-                                <NumberInput
-                                  w="4rem"
-                                  min={1}
-                                  max={99}
-                                  {...form.getInputProps(`addons.${index}.qty`)}
-                                />
-                              ),
+                              renderCell: (value, index) =>
+                                readonly ? (
+                                  value.qty
+                                ) : (
+                                  <NumberInput
+                                    w="4rem"
+                                    min={1}
+                                    max={99}
+                                    {...form.getInputProps(
+                                      `addons.${index}.qty`,
+                                    )}
+                                  />
+                                ),
                             },
                             {
                               header: 'Name',
@@ -265,19 +330,20 @@ export default function QuoteForm({
                               renderCell: (value) => value.name,
                             },
                             {
-                              header: 'Delete',
+                              header: readonly ? '' : 'Delete',
                               key: 'action',
                               align: 'right',
-                              renderCell: (_, index) => (
-                                <ActionIcon
-                                  variant="transparent"
-                                  onClick={() =>
-                                    form.removeListItem('addons', index)
-                                  }
-                                >
-                                  <IconTrashX color="var(--mantine-color-gray-6)" />
-                                </ActionIcon>
-                              ),
+                              renderCell: (_, index) =>
+                                readonly ? null : (
+                                  <ActionIcon
+                                    variant="transparent"
+                                    onClick={() =>
+                                      form.removeListItem('addons', index)
+                                    }
+                                  >
+                                    <IconX color="var(--mantine-color-gray-6)" />
+                                  </ActionIcon>
+                                ),
                             },
                           ]}
                         />
@@ -293,16 +359,18 @@ export default function QuoteForm({
                 )}
               </Grid>
             </FormSection>
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, sm: 6, md: 5, xl: 4 }}>
-            <QuoteSummary
-              values={form.values}
-              isPending={isPending}
-              error={error}
-            />
-          </Grid.Col>
-        </Grid>
-      </Section>
+          </fieldset>
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6, md: 5, xl: 4 }}>
+          <QuoteSummary
+            mode={mode}
+            quoteStatus={quoteStatus}
+            values={form.values}
+            isPending={isPending}
+            error={error}
+          />
+        </Grid.Col>
+      </Grid>
     </form>
   )
 }

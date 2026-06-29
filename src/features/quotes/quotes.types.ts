@@ -66,7 +66,7 @@ export const quoteSchema = z.object({
 
 export type Quote = z.infer<typeof quoteSchema>
 
-export const createQuoteFormValuesSchema = quoteDetailsSchema
+export const QuoteFormValuesSchema = quoteDetailsSchema
   .extend({
     rooms: z.array(roomQuoteFormValueSchema),
     addons: z.array(addonQuoteFormValueSchema),
@@ -117,12 +117,12 @@ export const createQuoteFormValuesSchema = quoteDetailsSchema
     },
   )
 
-export type CreateQuoteFormValues = z.infer<typeof createQuoteFormValuesSchema>
+export type QuoteFormValues = z.infer<typeof QuoteFormValuesSchema>
 
 export const quoteParamsSchema = z.object({
   quoteId: z.uuid(),
 })
 
 export const editQuoteSchema = quoteParamsSchema.extend({
-  values: createQuoteFormValuesSchema,
+  values: QuoteFormValuesSchema,
 })

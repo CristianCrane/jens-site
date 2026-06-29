@@ -54,6 +54,7 @@ export function SearchOptionsButton({
       <Combobox.Target withAriaAttributes={false}>
         <Button
           size="xs"
+          variant="light"
           leftSection={icon}
           onClick={() => combobox.toggleDropdown()}
         >

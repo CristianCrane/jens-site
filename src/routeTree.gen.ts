@@ -11,10 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuotesIndexRouteImport } from './routes/quotes/index'
-import { Route as QuotesWizardRouteImport } from './routes/quotes/wizard'
 import { Route as QuotesSuccessRouteImport } from './routes/quotes/success'
 import { Route as QuotesRequestRouteImport } from './routes/quotes/request'
 import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
+import { Route as QuotesQuoteIdRouteImport } from './routes/quotes/$quoteId'
 import { Route as QuotesQuoteIdIndexRouteImport } from './routes/quotes/$quoteId/index'
 import { Route as QuotesQuoteIdEditRouteImport } from './routes/quotes/$quoteId/edit'
 
@@ -26,11 +26,6 @@ const IndexRoute = IndexRouteImport.update({
 const QuotesIndexRoute = QuotesIndexRouteImport.update({
   id: '/quotes/',
   path: '/quotes/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const QuotesWizardRoute = QuotesWizardRouteImport.update({
-  id: '/quotes/wizard',
-  path: '/quotes/wizard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuotesSuccessRoute = QuotesSuccessRouteImport.update({
@@ -48,23 +43,28 @@ const QuotesCreateRoute = QuotesCreateRouteImport.update({
   path: '/quotes/create',
   getParentRoute: () => rootRouteImport,
 } as any)
-const QuotesQuoteIdIndexRoute = QuotesQuoteIdIndexRouteImport.update({
-  id: '/quotes/$quoteId/',
-  path: '/quotes/$quoteId/',
+const QuotesQuoteIdRoute = QuotesQuoteIdRouteImport.update({
+  id: '/quotes/$quoteId',
+  path: '/quotes/$quoteId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuotesQuoteIdIndexRoute = QuotesQuoteIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => QuotesQuoteIdRoute,
+} as any)
 const QuotesQuoteIdEditRoute = QuotesQuoteIdEditRouteImport.update({
-  id: '/quotes/$quoteId/edit',
-  path: '/quotes/$quoteId/edit',
-  getParentRoute: () => rootRouteImport,
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => QuotesQuoteIdRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/quotes/$quoteId': typeof QuotesQuoteIdRouteWithChildren
   '/quotes/create': typeof QuotesCreateRoute
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
-  '/quotes/wizard': typeof QuotesWizardRoute
   '/quotes/': typeof QuotesIndexRoute
   '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
   '/quotes/$quoteId/': typeof QuotesQuoteIdIndexRoute
@@ -74,7 +74,6 @@ export interface FileRoutesByTo {
   '/quotes/create': typeof QuotesCreateRoute
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
-  '/quotes/wizard': typeof QuotesWizardRoute
   '/quotes': typeof QuotesIndexRoute
   '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
   '/quotes/$quoteId': typeof QuotesQuoteIdIndexRoute
@@ -82,10 +81,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/quotes/$quoteId': typeof QuotesQuoteIdRouteWithChildren
   '/quotes/create': typeof QuotesCreateRoute
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
-  '/quotes/wizard': typeof QuotesWizardRoute
   '/quotes/': typeof QuotesIndexRoute
   '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
   '/quotes/$quoteId/': typeof QuotesQuoteIdIndexRoute
@@ -94,10 +93,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/quotes/$quoteId'
     | '/quotes/create'
     | '/quotes/request'
     | '/quotes/success'
-    | '/quotes/wizard'
     | '/quotes/'
     | '/quotes/$quoteId/edit'
     | '/quotes/$quoteId/'
@@ -107,17 +106,16 @@ export interface FileRouteTypes {
     | '/quotes/create'
     | '/quotes/request'
     | '/quotes/success'
-    | '/quotes/wizard'
     | '/quotes'
     | '/quotes/$quoteId/edit'
     | '/quotes/$quoteId'
   id:
     | '__root__'
     | '/'
+    | '/quotes/$quoteId'
     | '/quotes/create'
     | '/quotes/request'
     | '/quotes/success'
-    | '/quotes/wizard'
     | '/quotes/'
     | '/quotes/$quoteId/edit'
     | '/quotes/$quoteId/'
@@ -125,13 +123,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  QuotesQuoteIdRoute: typeof QuotesQuoteIdRouteWithChildren
   QuotesCreateRoute: typeof QuotesCreateRoute
   QuotesRequestRoute: typeof QuotesRequestRoute
   QuotesSuccessRoute: typeof QuotesSuccessRoute
-  QuotesWizardRoute: typeof QuotesWizardRoute
   QuotesIndexRoute: typeof QuotesIndexRoute
-  QuotesQuoteIdEditRoute: typeof QuotesQuoteIdEditRoute
-  QuotesQuoteIdIndexRoute: typeof QuotesQuoteIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -148,13 +144,6 @@ declare module '@tanstack/react-router' {
       path: '/quotes'
       fullPath: '/quotes/'
       preLoaderRoute: typeof QuotesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quotes/wizard': {
-      id: '/quotes/wizard'
-      path: '/quotes/wizard'
-      fullPath: '/quotes/wizard'
-      preLoaderRoute: typeof QuotesWizardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quotes/success': {
@@ -178,32 +167,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuotesCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quotes/$quoteId': {
+      id: '/quotes/$quoteId'
+      path: '/quotes/$quoteId'
+      fullPath: '/quotes/$quoteId'
+      preLoaderRoute: typeof QuotesQuoteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quotes/$quoteId/': {
       id: '/quotes/$quoteId/'
-      path: '/quotes/$quoteId'
+      path: '/'
       fullPath: '/quotes/$quoteId/'
       preLoaderRoute: typeof QuotesQuoteIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof QuotesQuoteIdRoute
     }
     '/quotes/$quoteId/edit': {
       id: '/quotes/$quoteId/edit'
-      path: '/quotes/$quoteId/edit'
+      path: '/edit'
       fullPath: '/quotes/$quoteId/edit'
       preLoaderRoute: typeof QuotesQuoteIdEditRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof QuotesQuoteIdRoute
     }
   }
 }
 
+interface QuotesQuoteIdRouteChildren {
+  QuotesQuoteIdEditRoute: typeof QuotesQuoteIdEditRoute
+  QuotesQuoteIdIndexRoute: typeof QuotesQuoteIdIndexRoute
+}
+
+const QuotesQuoteIdRouteChildren: QuotesQuoteIdRouteChildren = {
+  QuotesQuoteIdEditRoute: QuotesQuoteIdEditRoute,
+  QuotesQuoteIdIndexRoute: QuotesQuoteIdIndexRoute,
+}
+
+const QuotesQuoteIdRouteWithChildren = QuotesQuoteIdRoute._addFileChildren(
+  QuotesQuoteIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  QuotesQuoteIdRoute: QuotesQuoteIdRouteWithChildren,
   QuotesCreateRoute: QuotesCreateRoute,
   QuotesRequestRoute: QuotesRequestRoute,
   QuotesSuccessRoute: QuotesSuccessRoute,
-  QuotesWizardRoute: QuotesWizardRoute,
   QuotesIndexRoute: QuotesIndexRoute,
-  QuotesQuoteIdEditRoute: QuotesQuoteIdEditRoute,
-  QuotesQuoteIdIndexRoute: QuotesQuoteIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

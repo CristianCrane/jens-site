@@ -1,3 +1,4 @@
+import type { QuoteStatus } from '#/db'
 import {
   addonConfigs,
   isHourlyServiceType,
@@ -8,7 +9,7 @@ import {
   serviceConfigs,
 } from '@features/services'
 import type { Addon, Room, RoomSize, Service } from '@features/services'
-import type { CreateQuoteFormValues, Quote } from './quotes.types.ts'
+import type { Quote, QuoteFormValues } from './quotes.types.ts'
 
 export function calcRoomPrice(
   service: Service,
@@ -42,7 +43,7 @@ export function calcHourlyQuote({
   jobType,
   rooms,
   addons,
-}: CreateQuoteFormValues): Quote {
+}: QuoteFormValues): Quote {
   const roomPrices = rooms.map((room) => ({
     room,
     price: calcRoomPrice(jobType, room.name, room.size, room.qty),
@@ -79,7 +80,7 @@ export function calcHourlyQuote({
   }
 }
 
-export function calcSqFtQuote({ jobType, sqft }: CreateQuoteFormValues): Quote {
+export function calcSqFtQuote({ jobType, sqft }: QuoteFormValues): Quote {
   const subtotal = calcSqFtPrice(jobType, sqft)
   const taxes = calcTax(subtotal)
   const total = subtotal + taxes
@@ -99,7 +100,7 @@ export function calcSqFtQuote({ jobType, sqft }: CreateQuoteFormValues): Quote {
   }
 }
 
-export function calcQuote(values: CreateQuoteFormValues): Quote {
+export function calcQuote(values: QuoteFormValues): Quote {
   if (isHourlyServiceType(values.jobType)) return calcHourlyQuote(values)
   else if (isSqftServiceType(values.jobType)) return calcSqFtQuote(values)
   else throw new Error(`Calc quote error. Invalid job type: ${values.jobType}`)
@@ -108,4 +109,8 @@ export function calcQuote(values: CreateQuoteFormValues): Quote {
 export function calcTax(subtotal: number) {
   const { taxRate } = rates
   return subtotal * taxRate
+}
+
+export function isQuoteEditable(quoteStatus?: QuoteStatus) {
+  return !quoteStatus || quoteStatus === 'draft'
 }
