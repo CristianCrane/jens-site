@@ -12,6 +12,7 @@ import {
   Pagination,
   Stack,
   TextInput,
+  ThemeIcon,
 } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { Table } from '#/components'
@@ -19,6 +20,7 @@ import PageLayout from '#/components/Layout/PageLayout.tsx'
 import { toRelativeDateFormat } from '#/utils'
 import { IconPlus, IconSearch } from '@tabler/icons-react'
 import QuoteStatus from '@features/quotes/components/QuoteStatus.tsx'
+import { serviceConfigs } from '@features/services'
 
 export default function ListQuotesView() {
   const { page, search } = useSearch({ from: '/quotes/' })
@@ -71,7 +73,7 @@ export default function ListQuotesView() {
               key: 'quoteNumber',
               renderCell: (value) => (
                 <Anchor component={Link} to={`/quotes/${value.id}`}>
-                  {value.quoteNumber}
+                  # {value.quoteNumber}
                 </Anchor>
               ),
             },
@@ -83,7 +85,17 @@ export default function ListQuotesView() {
             {
               header: 'Job Type',
               key: 'jobType',
-              renderCell: (value) => value.jobType,
+              renderCell: (value) => {
+                const Icon = serviceConfigs[value.jobType].icon
+                return (
+                  <Group gap="xs" wrap="nowrap">
+                    <ThemeIcon variant="transparent" size="sm">
+                      <Icon />
+                    </ThemeIcon>
+                    {value.jobType}
+                  </Group>
+                )
+              },
             },
             {
               header: 'Status',
