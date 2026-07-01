@@ -1,9 +1,9 @@
 import { useNavigate } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import PageLayout from '#/components/Layout/PageLayout.tsx'
+import QuoteForm from '../components/QuoteForm.tsx'
 import { createQuote } from '../quotes.server.tsx'
 import type { QuoteFormValues } from '../quotes.types.ts'
-import QuoteForm from './QuoteForm.tsx'
 
 const defaultInitialValues: QuoteFormValues = {
   jobType: 'Residential Cleaning',
@@ -21,7 +21,7 @@ const defaultInitialValues: QuoteFormValues = {
   sqft: 0,
 }
 
-export default function QuoteCreateForm() {
+export default function CreateQuoteView() {
   const postQuote = useServerFn(createQuote)
   const navigate = useNavigate()
   const onSubmit = async (values: QuoteFormValues) => {

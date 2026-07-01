@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { FormSuccess } from '@features/quotes'
+import { QuoteRequestReceivedView } from '@features/quotes'
 
 export const Route = createFileRoute('/quotes/success')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <FormSuccess />
+  return <QuoteRequestReceivedView />
 }

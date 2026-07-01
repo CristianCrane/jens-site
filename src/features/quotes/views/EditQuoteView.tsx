@@ -1,16 +1,16 @@
-import { useLoaderData, useRouter } from '@tanstack/react-router'
+import { useLoaderData, useNavigate, useRouter } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { Group } from '@mantine/core'
 import PageLayout from '#/components/Layout/PageLayout.tsx'
-import type { QuoteFormValues } from '@features/quotes'
-import QuoteForm from '@features/quotes/components/QuoteForm.tsx'
 import QuoteStatus from '@features/quotes/components/QuoteStatus.tsx'
-import { sendQuote } from '@features/quotes/quotes.server.tsx'
+import QuoteForm from '../components/QuoteForm.tsx'
+import { editQuote } from '../quotes.server.tsx'
+import { type QuoteFormValues } from '../quotes.types.ts'
 
-export default function QuoteView() {
+export default function EditQuoteView() {
   const { quote } = useLoaderData({ from: '/quotes/$quoteId' })
 
-  const quoteValues: QuoteFormValues = {
+  const initialValues: QuoteFormValues = {
     jobType: quote.jobType,
     address: quote.address,
     address2: quote.address2,
@@ -26,18 +26,15 @@ export default function QuoteView() {
     sqft: quote.sqft,
   }
 
-  const postQuote = useServerFn(sendQuote)
+  const postQuote = useServerFn(editQuote)
+  const navigate = useNavigate()
   const router = useRouter()
-
   const onSubmit = async (values: QuoteFormValues) => {
     await postQuote({
-      data: {
-        quoteId: quote.id,
-        values,
-      },
+      data: { quoteId: quote.id, values },
     })
     await router.invalidate()
-    // todo: pop toast
+    await navigate({ to: '/quotes/$quoteId', params: { quoteId: quote.id } })
   }
 
   return (
@@ -50,11 +47,9 @@ export default function QuoteView() {
       }
     >
       <QuoteForm
-        initialValues={quoteValues}
+        initialValues={initialValues}
         onSubmit={onSubmit}
-        mode="view"
-        quoteId={quote.id}
-        quoteStatus={quote.quoteStatus}
+        mode="edit"
       />
     </PageLayout>
   )

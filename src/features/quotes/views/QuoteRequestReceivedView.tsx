@@ -10,9 +10,9 @@ import {
   Title,
 } from '@mantine/core'
 import { IconConfetti } from '@tabler/icons-react'
-import classes from './QuoteRequestForm.module.css'
+import classes from '../components/QuoteRequestForm.module.css'
 
-export default function FormSuccess() {
+export default function QuoteRequestReceivedView() {
   return (
     <Container size="sm" display="flex" flex={1}>
       <Card radius="xl" my="auto" classNames={{ root: classes.card }}>

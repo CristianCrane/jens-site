@@ -1,18 +1,18 @@
-import FormSuccess from './components/FormSuccess.tsx'
-import ListQuotesView from './components/ListQuotesView.tsx'
-import QuoteCreateForm from './components/QuoteCreateForm.tsx'
-import QuoteEditForm from './components/QuoteEditForm.tsx'
-import QuoteRequestForm from './components/QuoteRequestForm.tsx'
-import QuoteView from './components/QuoteView.tsx'
 import { getQuote } from './quotes.server.tsx'
+import CreateQuoteView from './views/CreateQuoteView.tsx'
+import EditQuoteView from './views/EditQuoteView.tsx'
+import ListQuotesView from './views/ListQuotesView.tsx'
+import QuoteDetailsView from './views/QuoteDetailsView.tsx'
+import QuoteRequestReceivedView from './views/QuoteRequestReceivedView.tsx'
+import RequestQuoteView from './views/RequestQuoteView.tsx'
 
 export * from './quotes.types.ts'
 export {
-  QuoteRequestForm,
-  QuoteCreateForm,
-  FormSuccess,
-  QuoteEditForm,
-  QuoteView,
+  RequestQuoteView,
+  CreateQuoteView,
+  QuoteRequestReceivedView,
+  EditQuoteView,
+  QuoteDetailsView,
   ListQuotesView,
 }
 export { getQuote }

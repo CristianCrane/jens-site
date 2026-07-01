@@ -11,13 +11,13 @@ import {
 } from '@mantine/core'
 import { FormWizard } from '#/components'
 import { serviceConfigs, services } from '@features/services'
+import classes from '../components/QuoteRequestForm.module.css'
+import RadioOption from '../components/RadioOption.tsx'
 import { requestQuote } from '../quotes.server.tsx'
 import type { QuoteRequestFormValues } from '../quotes.types.ts'
 import { quoteDetailsSchema } from '../quotes.types.ts'
-import classes from './QuoteRequestForm.module.css'
-import RadioOption from './RadioOption.tsx'
 
-export default function QuoteRequestForm() {
+export default function RequestQuoteView() {
   const navigate = useNavigate()
   const postQuote = useServerFn(requestQuote)
 
