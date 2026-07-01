@@ -126,3 +126,9 @@ export const quoteParamsSchema = z.object({
 export const editQuoteSchema = quoteParamsSchema.extend({
   values: QuoteFormValuesSchema,
 })
+
+export const quotesSearchSchema = z.object({
+  page: z.number().catch(1),
+  limit: z.number().catch(10),
+  search: z.string().catch(''),
+})

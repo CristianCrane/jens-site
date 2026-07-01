@@ -1,7 +1,7 @@
 import { createServerFn } from '@tanstack/react-start'
 import { db, quotes } from '#/db'
 import { AppError, validate } from '#/errors'
-import { eq } from 'drizzle-orm'
+import { count, desc, eq, ilike, sql } from 'drizzle-orm'
 import { Resend } from 'resend'
 import { uuid } from 'zod'
 import {
@@ -12,6 +12,7 @@ import {
 import {
   QuoteFormValuesSchema,
   editQuoteSchema,
+  quotesSearchSchema,
   requestQuoteSchema,
 } from './quotes.types.ts'
 import { calcQuote } from './quotes.utils.ts'
@@ -139,4 +140,40 @@ export const sendQuote = createServerFn({ method: 'POST' })
         />
       ),
     })
+  })
+
+export const getQuotes = createServerFn({ method: 'GET' })
+  .validator(validate(quotesSearchSchema))
+  .handler(async ({ data }) => {
+    const { page, limit, search } = data
+
+    const offset = (page - 1) * limit
+    const filter = search
+      ? ilike(
+          sql`cast(
+          ${quotes.quoteNumber}
+          as
+          text
+          )`,
+          `%${search}%`,
+        )
+      : undefined
+
+    const quoteData = await db
+      .select()
+      .from(quotes)
+      .where(filter)
+      .orderBy(desc(quotes.createdAt))
+      .limit(limit)
+      .offset(offset)
+
+    const [countResult] = await db
+      .select({ count: count() })
+      .from(quotes)
+      .where(filter)
+
+    return {
+      data: quoteData,
+      totalPages: Math.ceil(countResult.count / limit),
+    }
   })

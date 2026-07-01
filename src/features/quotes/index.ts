@@ -1,4 +1,5 @@
 import FormSuccess from './components/FormSuccess.tsx'
+import ListQuotesView from './components/ListQuotesView.tsx'
 import QuoteCreateForm from './components/QuoteCreateForm.tsx'
 import QuoteEditForm from './components/QuoteEditForm.tsx'
 import QuoteRequestForm from './components/QuoteRequestForm.tsx'
@@ -12,5 +13,6 @@ export {
   FormSuccess,
   QuoteEditForm,
   QuoteView,
+  ListQuotesView,
 }
 export { getQuote }
