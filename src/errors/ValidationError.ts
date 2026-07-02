@@ -7,6 +7,7 @@ export class ValidationError extends AppError {
       code: 'VALIDATION_ERROR',
       statusCode: 400,
       cause,
+      isOperational: true,
     })
   }
 }

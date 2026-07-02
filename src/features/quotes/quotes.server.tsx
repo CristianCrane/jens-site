@@ -1,6 +1,6 @@
-import { createServerFn } from '@tanstack/react-start'
 import { db, quotes } from '#/db'
-import { AppError, validate } from '#/errors'
+import { ValidationError, validate } from '#/errors'
+import { protectedServerFn } from '#/lib/serverFn.ts'
 import { count, desc, eq, ilike, sql } from 'drizzle-orm'
 import { Resend } from 'resend'
 import { uuid } from 'zod'
@@ -17,10 +17,9 @@ import {
 } from './quotes.types.ts'
 import { calcQuote } from './quotes.utils.ts'
 
-export const createQuote = createServerFn({ method: 'POST' })
+export const createQuote = protectedServerFn({ method: 'POST' })
   .validator(validate(QuoteFormValuesSchema))
   .handler(async ({ data }) => {
-    // todo: database errors
     const [quote] = await db
       .insert(quotes)
       .values({
@@ -34,10 +33,9 @@ export const createQuote = createServerFn({ method: 'POST' })
     return quote
   })
 
-export const requestQuote = createServerFn({ method: 'POST' })
+export const requestQuote = protectedServerFn({ method: 'POST' })
   .validator(validate(requestQuoteSchema))
   .handler(async ({ data }) => {
-    // todo: database errors
     const [result] = await db
       .insert(quotes)
       .values({
@@ -47,7 +45,6 @@ export const requestQuote = createServerFn({ method: 'POST' })
         id: quotes.id,
       })
 
-    // todo: resend errors
     const resend = new Resend(process.env.RESEND_API_KEY)
     await Promise.all([
       resend.emails.send({
@@ -65,7 +62,7 @@ export const requestQuote = createServerFn({ method: 'POST' })
     ])
   })
 
-export const getQuote = createServerFn({ method: 'GET' })
+export const getQuote = protectedServerFn({ method: 'GET' })
   .validator(validate(uuid()))
   .handler(async ({ data: quoteId }) => {
     const [quote] = await db
@@ -77,23 +74,18 @@ export const getQuote = createServerFn({ method: 'GET' })
     return quote ?? null
   })
 
-export const editQuote = createServerFn({ method: 'POST' })
+export const editQuote = protectedServerFn({ method: 'POST' })
   .validator(validate(editQuoteSchema))
   .handler(async ({ data }) => {
     const { quoteId, values } = data
 
     const quote = await getQuote({ data: quoteId })
     if (quote.quoteStatus === 'sent' || quote.quoteStatus === 'void') {
-      throw new AppError(
+      throw new ValidationError(
         `Quote has already been sent or cancelled. Please create another.`,
-        {
-          code: 'VALIDATION_ERROR',
-          isOperational: true,
-        },
       )
     }
 
-    // todo: db errors
     const [updatedQuote] = await db
       .update(quotes)
       .set({ ...values })
@@ -103,30 +95,24 @@ export const editQuote = createServerFn({ method: 'POST' })
     return updatedQuote ?? null
   })
 
-export const sendQuote = createServerFn({ method: 'POST' })
+export const sendQuote = protectedServerFn({ method: 'POST' })
   .validator(validate(editQuoteSchema))
   .handler(async ({ data }) => {
     const { quoteId } = data
 
     const quote = await getQuote({ data: quoteId })
     if (quote.quoteStatus === 'sent' || quote.quoteStatus === 'void') {
-      throw new AppError(
+      throw new ValidationError(
         `Quote has already been sent or cancelled. Please create another.`,
-        {
-          code: 'VALIDATION_ERROR',
-          isOperational: true,
-        },
       )
     }
 
-    // todo: db errors
     const [sentQuote] = await db
       .update(quotes)
       .set({ quoteStatus: 'sent' })
       .where(eq(quotes.id, quoteId))
       .returning()
 
-    // todo: resend errors
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
       from: process.env.CLIENT_NO_REPLY_EMAIL,
@@ -142,7 +128,7 @@ export const sendQuote = createServerFn({ method: 'POST' })
     })
   })
 
-export const getQuotes = createServerFn({ method: 'GET' })
+export const getQuotes = protectedServerFn({ method: 'GET' })
   .validator(validate(quotesSearchSchema))
   .handler(async ({ data }) => {
     const { page, limit, search } = data
