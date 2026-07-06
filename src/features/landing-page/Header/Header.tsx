@@ -1,7 +1,7 @@
 import { Container } from '@mantine/core'
-import Logo from '#/features/landing-page/Logo/Logo.tsx'
+import { Logo } from '#/components'
 import classes from './Header.module.css'
-import PhoneLink from '#/components/Header/PhoneLink.tsx'
+import PhoneLink from './PhoneLink.tsx'
 
 export default function Header() {
   return (

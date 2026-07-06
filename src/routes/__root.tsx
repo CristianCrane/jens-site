@@ -12,7 +12,6 @@ import '@mantine/core/styles.css'
 import '@mantine/dates/styles.css'
 import '@mantine/dropzone/styles.css'
 import { cssVariablesResolver, theme } from '#/app-theme.ts'
-import { Footer, Header } from '#/components'
 import { ErrorView, NotFoundView } from '#/errors'
 import classes from '../App.module.css'
 
@@ -48,7 +47,7 @@ export const Route = createRootRoute({
   }),
   shellComponent: RootDocument,
   errorComponent: ({ error }) => <ErrorView error={error} />,
-  notFoundComponent: NotFoundView,
+  notFoundComponent: () => <NotFoundView />,
 })
 
 const queryClient = new QueryClient()
@@ -67,11 +66,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         >
           <QueryClientProvider client={queryClient}>
             <Stack mih="100vh" gap={0}>
-              <Header />
               <Stack component="main" flex={1} gap={0}>
                 {children}
               </Stack>
-              <Footer />
             </Stack>
           </QueryClientProvider>
         </MantineProvider>
