@@ -9,6 +9,10 @@ const ServerEnv = z.object({
     .nonempty('Email assets URL missing!'),
   APP_BASE_URL: z.url('Invalid APP base URL').nonempty(),
   CLIENT_NO_REPLY_EMAIL: z.string().nonempty(),
+  BETTER_AUTH_SECRET: z.string().length(32).nonempty(),
+  BETTER_AUTH_URL: z.url().nonempty(),
+  GOOGLE_CLIENT_ID: z.string().nonempty(),
+  GOOGLE_CLIENT_SECRET: z.string().nonempty(),
 })
 
 const ClientEnv = z.object({

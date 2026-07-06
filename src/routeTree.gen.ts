@@ -9,15 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuotesIndexRouteImport } from './routes/quotes/index'
 import { Route as QuotesSuccessRouteImport } from './routes/quotes/success'
 import { Route as QuotesRequestRouteImport } from './routes/quotes/request'
 import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
 import { Route as QuotesQuoteIdRouteImport } from './routes/quotes/$quoteId'
+import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
+import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 import { Route as QuotesQuoteIdIndexRouteImport } from './routes/quotes/$quoteId/index'
 import { Route as QuotesQuoteIdEditRouteImport } from './routes/quotes/$quoteId/edit'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -48,6 +57,16 @@ const QuotesQuoteIdRoute = QuotesQuoteIdRouteImport.update({
   path: '/quotes/$quoteId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthSignUpRoute = AuthSignUpRouteImport.update({
+  id: '/auth/sign-up',
+  path: '/auth/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignInRoute = AuthSignInRouteImport.update({
+  id: '/auth/sign-in',
+  path: '/auth/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuotesQuoteIdIndexRoute = QuotesQuoteIdIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -58,34 +77,51 @@ const QuotesQuoteIdEditRoute = QuotesQuoteIdEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => QuotesQuoteIdRoute,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/sign-up': typeof AuthSignUpRoute
   '/quotes/$quoteId': typeof QuotesQuoteIdRouteWithChildren
   '/quotes/create': typeof QuotesCreateRoute
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
   '/quotes/': typeof QuotesIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
   '/quotes/$quoteId/': typeof QuotesQuoteIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/sign-up': typeof AuthSignUpRoute
   '/quotes/create': typeof QuotesCreateRoute
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
   '/quotes': typeof QuotesIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
   '/quotes/$quoteId': typeof QuotesQuoteIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/sign-up': typeof AuthSignUpRoute
   '/quotes/$quoteId': typeof QuotesQuoteIdRouteWithChildren
   '/quotes/create': typeof QuotesCreateRoute
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
   '/quotes/': typeof QuotesIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
   '/quotes/$quoteId/': typeof QuotesQuoteIdIndexRoute
 }
@@ -93,45 +129,68 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
     | '/quotes/$quoteId'
     | '/quotes/create'
     | '/quotes/request'
     | '/quotes/success'
     | '/quotes/'
+    | '/api/auth/$'
     | '/quotes/$quoteId/edit'
     | '/quotes/$quoteId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dashboard'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
     | '/quotes/create'
     | '/quotes/request'
     | '/quotes/success'
     | '/quotes'
+    | '/api/auth/$'
     | '/quotes/$quoteId/edit'
     | '/quotes/$quoteId'
   id:
     | '__root__'
     | '/'
+    | '/dashboard'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
     | '/quotes/$quoteId'
     | '/quotes/create'
     | '/quotes/request'
     | '/quotes/success'
     | '/quotes/'
+    | '/api/auth/$'
     | '/quotes/$quoteId/edit'
     | '/quotes/$quoteId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  AuthSignInRoute: typeof AuthSignInRoute
+  AuthSignUpRoute: typeof AuthSignUpRoute
   QuotesQuoteIdRoute: typeof QuotesQuoteIdRouteWithChildren
   QuotesCreateRoute: typeof QuotesCreateRoute
   QuotesRequestRoute: typeof QuotesRequestRoute
   QuotesSuccessRoute: typeof QuotesSuccessRoute
   QuotesIndexRoute: typeof QuotesIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -174,6 +233,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuotesQuoteIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/sign-up': {
+      id: '/auth/sign-up'
+      path: '/auth/sign-up'
+      fullPath: '/auth/sign-up'
+      preLoaderRoute: typeof AuthSignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/sign-in': {
+      id: '/auth/sign-in'
+      path: '/auth/sign-in'
+      fullPath: '/auth/sign-in'
+      preLoaderRoute: typeof AuthSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quotes/$quoteId/': {
       id: '/quotes/$quoteId/'
       path: '/'
@@ -187,6 +260,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/quotes/$quoteId/edit'
       preLoaderRoute: typeof QuotesQuoteIdEditRouteImport
       parentRoute: typeof QuotesQuoteIdRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -207,11 +287,15 @@ const QuotesQuoteIdRouteWithChildren = QuotesQuoteIdRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  AuthSignInRoute: AuthSignInRoute,
+  AuthSignUpRoute: AuthSignUpRoute,
   QuotesQuoteIdRoute: QuotesQuoteIdRouteWithChildren,
   QuotesCreateRoute: QuotesCreateRoute,
   QuotesRequestRoute: QuotesRequestRoute,
   QuotesSuccessRoute: QuotesSuccessRoute,
   QuotesIndexRoute: QuotesIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

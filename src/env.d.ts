@@ -20,6 +20,10 @@ declare global {
       readonly EMAIL_ASSETS_BASE_URL: string
       readonly APP_BASE_URL: string
       readonly CLIENT_NO_REPLY_EMAIL: string
+      readonly BETTER_AUTH_SECRET: string
+      readonly BETTER_AUTH_URL: string
+      readonly GOOGLE_CLIENT_ID: string
+      readonly GOOGLE_CLIENT_SECRET: string
     }
   }
 }

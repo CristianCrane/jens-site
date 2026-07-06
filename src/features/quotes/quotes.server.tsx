@@ -1,4 +1,4 @@
-import { db, quotes } from '#/db'
+import { db } from '#/db'
 import { ValidationError, validate } from '#/errors'
 import { protectedServerFn } from '#/lib/serverFn.ts'
 import { count, desc, eq, ilike, sql } from 'drizzle-orm'
@@ -9,6 +9,7 @@ import {
   QuoteEmail,
   QuoteRequestEmail,
 } from '../../../emails'
+import { quotes } from './quotes.sql.ts'
 import {
   QuoteFormValuesSchema,
   editQuoteSchema,

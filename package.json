@@ -17,7 +17,8 @@
     "email:dev": "set EMAIL_ASSETS_BASE_URL=https://raw.githubusercontent.com/CristianCrane/jens-site/main/public&&email dev",
     "email:export": "email export",
     "db:push": "npx drizzle-kit push --force",
-    "db:generate": "npx drizzle-kit generate"
+    "db:generate": "npx drizzle-kit generate",
+    "db:ui": "npx drizzle-kit studio"
   },
   "dependencies": {
     "@mantine/carousel": "^9.3.2",
@@ -36,6 +37,7 @@
     "@tanstack/react-router-ssr-query": "latest",
     "@tanstack/react-start": "latest",
     "@tanstack/router-plugin": "^1.132.0",
+    "better-auth": "^1.6.23",
     "dayjs": "^1.11.20",
     "dotenv": "^17.4.0",
     "drizzle-orm": "^0.45.2",
