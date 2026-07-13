@@ -14,7 +14,6 @@ import {
 } from '@mantine/core'
 import { schemaResolver, useForm } from '@mantine/form'
 import { FormSection, Table } from '#/components'
-import type { QuoteStatus } from '#/db'
 import {
   IconEdit,
   IconMapPin,
@@ -23,7 +22,8 @@ import {
   IconUser,
   IconX,
 } from '@tabler/icons-react'
-import { isQuoteEditable } from '@features/quotes/quotes.utils.ts'
+import type { QuoteStatus } from '@features/quotes'
+import { isQuoteEditable } from '@features/quotes'
 import type { Addon, Room } from '@features/services'
 import {
   addons,

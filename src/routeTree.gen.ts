@@ -9,22 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuotesIndexRouteImport } from './routes/quotes/index'
+import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as QuotesSuccessRouteImport } from './routes/quotes/success'
 import { Route as QuotesRequestRouteImport } from './routes/quotes/request'
 import { Route as QuotesCreateRouteImport } from './routes/quotes/create'
 import { Route as QuotesQuoteIdRouteImport } from './routes/quotes/$quoteId'
+import { Route as AuthVerifyRouteImport } from './routes/auth/verify'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
+import { Route as AuthResetRouteImport } from './routes/auth/reset'
+import { Route as AuthRequestResetRouteImport } from './routes/auth/request-reset'
 import { Route as QuotesQuoteIdIndexRouteImport } from './routes/quotes/$quoteId/index'
 import { Route as QuotesQuoteIdEditRouteImport } from './routes/quotes/$quoteId/edit'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AppRouteRoute = AppRouteRouteImport.update({
+  id: '/app',
+  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -36,6 +40,11 @@ const QuotesIndexRoute = QuotesIndexRouteImport.update({
   id: '/quotes/',
   path: '/quotes/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const QuotesSuccessRoute = QuotesSuccessRouteImport.update({
   id: '/quotes/success',
@@ -57,6 +66,11 @@ const QuotesQuoteIdRoute = QuotesQuoteIdRouteImport.update({
   path: '/quotes/$quoteId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthVerifyRoute = AuthVerifyRouteImport.update({
+  id: '/auth/verify',
+  path: '/auth/verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
   id: '/auth/sign-up',
   path: '/auth/sign-up',
@@ -65,6 +79,16 @@ const AuthSignUpRoute = AuthSignUpRouteImport.update({
 const AuthSignInRoute = AuthSignInRouteImport.update({
   id: '/auth/sign-in',
   path: '/auth/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthResetRoute = AuthResetRouteImport.update({
+  id: '/auth/reset',
+  path: '/auth/reset',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRequestResetRoute = AuthRequestResetRouteImport.update({
+  id: '/auth/request-reset',
+  path: '/auth/request-reset',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuotesQuoteIdIndexRoute = QuotesQuoteIdIndexRouteImport.update({
@@ -85,13 +109,17 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/auth/request-reset': typeof AuthRequestResetRoute
+  '/auth/reset': typeof AuthResetRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
+  '/auth/verify': typeof AuthVerifyRoute
   '/quotes/$quoteId': typeof QuotesQuoteIdRouteWithChildren
   '/quotes/create': typeof QuotesCreateRoute
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
+  '/app/': typeof AppIndexRoute
   '/quotes/': typeof QuotesIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
@@ -99,12 +127,15 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/auth/request-reset': typeof AuthRequestResetRoute
+  '/auth/reset': typeof AuthResetRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
+  '/auth/verify': typeof AuthVerifyRoute
   '/quotes/create': typeof QuotesCreateRoute
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
+  '/app': typeof AppIndexRoute
   '/quotes': typeof QuotesIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
@@ -113,13 +144,17 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/auth/request-reset': typeof AuthRequestResetRoute
+  '/auth/reset': typeof AuthResetRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
+  '/auth/verify': typeof AuthVerifyRoute
   '/quotes/$quoteId': typeof QuotesQuoteIdRouteWithChildren
   '/quotes/create': typeof QuotesCreateRoute
   '/quotes/request': typeof QuotesRequestRoute
   '/quotes/success': typeof QuotesSuccessRoute
+  '/app/': typeof AppIndexRoute
   '/quotes/': typeof QuotesIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/quotes/$quoteId/edit': typeof QuotesQuoteIdEditRoute
@@ -129,13 +164,17 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/dashboard'
+    | '/app'
+    | '/auth/request-reset'
+    | '/auth/reset'
     | '/auth/sign-in'
     | '/auth/sign-up'
+    | '/auth/verify'
     | '/quotes/$quoteId'
     | '/quotes/create'
     | '/quotes/request'
     | '/quotes/success'
+    | '/app/'
     | '/quotes/'
     | '/api/auth/$'
     | '/quotes/$quoteId/edit'
@@ -143,12 +182,15 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
+    | '/auth/request-reset'
+    | '/auth/reset'
     | '/auth/sign-in'
     | '/auth/sign-up'
+    | '/auth/verify'
     | '/quotes/create'
     | '/quotes/request'
     | '/quotes/success'
+    | '/app'
     | '/quotes'
     | '/api/auth/$'
     | '/quotes/$quoteId/edit'
@@ -156,13 +198,17 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/dashboard'
+    | '/app'
+    | '/auth/request-reset'
+    | '/auth/reset'
     | '/auth/sign-in'
     | '/auth/sign-up'
+    | '/auth/verify'
     | '/quotes/$quoteId'
     | '/quotes/create'
     | '/quotes/request'
     | '/quotes/success'
+    | '/app/'
     | '/quotes/'
     | '/api/auth/$'
     | '/quotes/$quoteId/edit'
@@ -171,9 +217,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
+  AppRouteRoute: typeof AppRouteRouteWithChildren
+  AuthRequestResetRoute: typeof AuthRequestResetRoute
+  AuthResetRoute: typeof AuthResetRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
+  AuthVerifyRoute: typeof AuthVerifyRoute
   QuotesQuoteIdRoute: typeof QuotesQuoteIdRouteWithChildren
   QuotesCreateRoute: typeof QuotesCreateRoute
   QuotesRequestRoute: typeof QuotesRequestRoute
@@ -184,11 +233,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -204,6 +253,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/quotes/'
       preLoaderRoute: typeof QuotesIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRouteRoute
     }
     '/quotes/success': {
       id: '/quotes/success'
@@ -233,6 +289,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuotesQuoteIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/verify': {
+      id: '/auth/verify'
+      path: '/auth/verify'
+      fullPath: '/auth/verify'
+      preLoaderRoute: typeof AuthVerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/sign-up': {
       id: '/auth/sign-up'
       path: '/auth/sign-up'
@@ -245,6 +308,20 @@ declare module '@tanstack/react-router' {
       path: '/auth/sign-in'
       fullPath: '/auth/sign-in'
       preLoaderRoute: typeof AuthSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/reset': {
+      id: '/auth/reset'
+      path: '/auth/reset'
+      fullPath: '/auth/reset'
+      preLoaderRoute: typeof AuthResetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/request-reset': {
+      id: '/auth/request-reset'
+      path: '/auth/request-reset'
+      fullPath: '/auth/request-reset'
+      preLoaderRoute: typeof AuthRequestResetRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quotes/$quoteId/': {
@@ -271,6 +348,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppRouteRouteChildren {
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
+  AppRouteRouteChildren,
+)
+
 interface QuotesQuoteIdRouteChildren {
   QuotesQuoteIdEditRoute: typeof QuotesQuoteIdEditRoute
   QuotesQuoteIdIndexRoute: typeof QuotesQuoteIdIndexRoute
@@ -287,9 +376,12 @@ const QuotesQuoteIdRouteWithChildren = QuotesQuoteIdRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
+  AppRouteRoute: AppRouteRouteWithChildren,
+  AuthRequestResetRoute: AuthRequestResetRoute,
+  AuthResetRoute: AuthResetRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
+  AuthVerifyRoute: AuthVerifyRoute,
   QuotesQuoteIdRoute: QuotesQuoteIdRouteWithChildren,
   QuotesCreateRoute: QuotesCreateRoute,
   QuotesRequestRoute: QuotesRequestRoute,

@@ -4,6 +4,7 @@ export type ErrorCode =
   | 'UNAUTHORIZED'
   | 'NOT_FOUND'
   | 'INTERNAL_ERROR'
+  | 'AUTHENTICATION_ERROR'
 
 export class AppError extends Error {
   public readonly code: ErrorCode

@@ -19,8 +19,8 @@ import { Table } from '#/components'
 import PageLayout from '#/components/Layout/PageLayout.tsx'
 import { toRelativeDateFormat } from '#/utils'
 import { IconPlus, IconSearch } from '@tabler/icons-react'
-import QuoteStatus from '@features/quotes/components/QuoteStatus.tsx'
 import { serviceConfigs } from '@features/services'
+import QuoteStatus from '../components/QuoteStatus.tsx'
 
 export default function ListQuotesView() {
   const { page, search } = useSearch({ from: '/quotes/' })

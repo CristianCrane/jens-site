@@ -1,11 +1,11 @@
 import { useLoaderData, useNavigate, useRouter } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { Group } from '@mantine/core'
-import PageLayout from '#/components/Layout/PageLayout.tsx'
-import QuoteStatus from '@features/quotes/components/QuoteStatus.tsx'
+import { PageLayout } from '#/components'
 import QuoteForm from '../components/QuoteForm.tsx'
+import QuoteStatus from '../components/QuoteStatus.tsx'
 import { editQuote } from '../quotes.server.tsx'
-import { type QuoteFormValues } from '../quotes.types.ts'
+import type { QuoteFormValues } from '../quotes.types.ts'
 
 export default function EditQuoteView() {
   const { quote } = useLoaderData({ from: '/quotes/$quoteId' })

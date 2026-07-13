@@ -1,8 +1,8 @@
 import { db } from '#/db'
 import { ValidationError, validate } from '#/errors'
+import { sendEmail } from '#/lib/email.ts'
 import { protectedServerFn } from '#/lib/serverFn.ts'
 import { count, desc, eq, ilike, sql } from 'drizzle-orm'
-import { Resend } from 'resend'
 import { uuid } from 'zod'
 import {
   QuoteConfirmationEmail,
@@ -46,19 +46,16 @@ export const requestQuote = protectedServerFn({ method: 'POST' })
         id: quotes.id,
       })
 
-    const resend = new Resend(process.env.RESEND_API_KEY)
     await Promise.all([
-      resend.emails.send({
-        from: process.env.CLIENT_NO_REPLY_EMAIL,
+      sendEmail({
         to: data.email,
         subject: 'We got your request!',
-        react: <QuoteConfirmationEmail data={data} />,
+        template: <QuoteConfirmationEmail data={data} />,
       }),
-      resend.emails.send({
-        from: process.env.CLIENT_NO_REPLY_EMAIL,
+      sendEmail({
         to: 'empirecleaningproservices@gmail.com', // todo: replace with real email, testing only
         subject: 'New Quote request',
-        react: <QuoteRequestEmail formValues={data} quoteId={result.id} />,
+        template: <QuoteRequestEmail formValues={data} quoteId={result.id} />,
       }),
     ])
   })
@@ -66,13 +63,13 @@ export const requestQuote = protectedServerFn({ method: 'POST' })
 export const getQuote = protectedServerFn({ method: 'GET' })
   .validator(validate(uuid()))
   .handler(async ({ data: quoteId }) => {
-    const [quote] = await db
+    const result = await db
       .select()
       .from(quotes)
       .where(eq(quotes.id, quoteId))
       .limit(1)
 
-    return quote ?? null
+    return result.length === 0 ? null : result[0]
   })
 
 export const editQuote = protectedServerFn({ method: 'POST' })
@@ -81,6 +78,11 @@ export const editQuote = protectedServerFn({ method: 'POST' })
     const { quoteId, values } = data
 
     const quote = await getQuote({ data: quoteId })
+
+    if (!quote) {
+      throw new ValidationError('Invalid quote ID')
+    }
+
     if (quote.quoteStatus === 'sent' || quote.quoteStatus === 'void') {
       throw new ValidationError(
         `Quote has already been sent or cancelled. Please create another.`,
@@ -93,7 +95,7 @@ export const editQuote = protectedServerFn({ method: 'POST' })
       .where(eq(quotes.id, quoteId))
       .returning()
 
-    return updatedQuote ?? null
+    return updatedQuote
   })
 
 export const sendQuote = protectedServerFn({ method: 'POST' })
@@ -102,6 +104,11 @@ export const sendQuote = protectedServerFn({ method: 'POST' })
     const { quoteId } = data
 
     const quote = await getQuote({ data: quoteId })
+
+    if (!quote) {
+      throw new ValidationError('Invalid quote ID')
+    }
+
     if (quote.quoteStatus === 'sent' || quote.quoteStatus === 'void') {
       throw new ValidationError(
         `Quote has already been sent or cancelled. Please create another.`,
@@ -114,12 +121,10 @@ export const sendQuote = protectedServerFn({ method: 'POST' })
       .where(eq(quotes.id, quoteId))
       .returning()
 
-    const resend = new Resend(process.env.RESEND_API_KEY)
-    await resend.emails.send({
-      from: process.env.CLIENT_NO_REPLY_EMAIL,
+    await sendEmail({
       to: quote.email,
       subject: `Your ${sentQuote.jobType} quote`,
-      react: (
+      template: (
         <QuoteEmail
           formValues={sentQuote}
           quote={calcQuote(sentQuote)}

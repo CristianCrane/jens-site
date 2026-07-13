@@ -10,8 +10,9 @@ import {
   Title,
 } from '@mantine/core'
 import { schemaResolver, useForm } from '@mantine/form'
-import { useEmailSignUp, useSocialSignIn } from '@features/auth/auth.hooks.ts'
-import { emailSignUpSchema } from '@features/auth/auth.types.ts'
+import { IconAlertCircle } from '@tabler/icons-react'
+import { useEmailSignUp, useSocialSignIn } from './auth.hooks.ts'
+import { emailSignUpSchema } from './auth.types.ts'
 
 export default function SignUpView() {
   const emailSignUp = useEmailSignUp()
@@ -30,8 +31,25 @@ export default function SignUpView() {
   return (
     <Container size="responsive" my="auto" w="100%" maw="450px">
       <Paper p="xl" w="100%" shadow="md">
+        <Title mb="lg">Sign up</Title>
         <Stack>
-          <Title>Sign up</Title>
+          <Button
+            variant="default"
+            size="md"
+            leftSection={
+              <img src="/google-login-logo.svg" alt="Google login logo" />
+            }
+            onClick={() => socialSignIn.mutate('google')}
+            loading={socialSignIn.isPending}
+          >
+            Sign in with Google
+          </Button>
+          {socialSignIn.error ? (
+            <Alert icon={<IconAlertCircle />} color="red">
+              {socialSignIn.error.message}
+            </Alert>
+          ) : null}
+          <Divider label="or" />
           <form
             onSubmit={form.onSubmit((values) => emailSignUp.mutate(values))}
           >
@@ -55,29 +73,12 @@ export default function SignUpView() {
                 Create account
               </Button>
               {emailSignUp.error ? (
-                <Alert title="Sign up error" color="red">
+                <Alert icon={<IconAlertCircle />} color="red">
                   {emailSignUp.error.message}
                 </Alert>
               ) : null}
             </Stack>
           </form>
-          <Divider label="or" />
-          <Button
-            variant="default"
-            size="md"
-            leftSection={
-              <img src="/google-login-logo.svg" alt="Google login logo" />
-            }
-            onClick={() => socialSignIn.mutate({ provider: 'google' })}
-            loading={socialSignIn.isPending}
-          >
-            Sign in with Google
-          </Button>
-          {socialSignIn.error ? (
-            <Alert title="Sign up error" color="red">
-              {socialSignIn.error.message}
-            </Alert>
-          ) : null}
         </Stack>
       </Paper>
     </Container>

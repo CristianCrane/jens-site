@@ -14,7 +14,7 @@
     "format": "prettier --check .",
     "check": "prettier --write . && eslint --fix",
     "email:build": "email build",
-    "email:dev": "set EMAIL_ASSETS_BASE_URL=https://raw.githubusercontent.com/CristianCrane/jens-site/main/public&&email dev",
+    "email:dev": "export set EMAIL_ASSETS_BASE_URL=https://raw.githubusercontent.com/CristianCrane/jens-site/44c12326c20d470c2641275d953e13df03ecd985/public&&email dev",
     "email:export": "email export",
     "db:push": "npx drizzle-kit push --force",
     "db:generate": "npx drizzle-kit generate",

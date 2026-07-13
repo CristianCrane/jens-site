@@ -13,21 +13,16 @@ export const telemetryMiddleware = createMiddleware({
     )
     return result
   } catch (e) {
-    const duration = performance.now() - startTime
+    const duration = (performance.now() - startTime).toFixed(2)
+    const { name } = serverFnMeta
 
     if (e instanceof AppError && e.isOperational) {
-      console.log(
-        `[INFO] Execution failed | duration: ${duration.toFixed(2)}ms`,
-        e,
-      )
+      console.log(`[INFO] ${name} failed | duration: ${duration}ms`, e)
     } else if (e instanceof AppError) {
-      console.error(
-        `[ERROR] Execution failed | duration: ${duration.toFixed(2)}ms`,
-        e,
-      )
+      console.error(`[ERROR] ${name} failed | duration: ${duration}ms`, e)
     } else {
       console.error(
-        `[UNEXPECTED ERROR] Execution failed | duration: ${duration.toFixed(2)}ms`,
+        `[UNEXPECTED ERROR] ${name} failed | duration: ${duration}ms`,
         e,
       )
     }

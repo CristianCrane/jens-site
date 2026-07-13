@@ -5,11 +5,11 @@ import { getQuote, quoteParamsSchema } from '@features/quotes'
 export const Route = createFileRoute('/quotes/$quoteId')({
   params: {
     parse: (params) => {
-      const result = quoteParamsSchema.safeParse(params)
-      if (!result.success) {
+      try {
+        return quoteParamsSchema.parse(params)
+      } catch (e) {
         throw notFound()
       }
-      return result.data
     },
   },
   loader: async ({ params }) => {

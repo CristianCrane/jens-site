@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ListQuotesView, quotesSearchSchema } from '@features/quotes'
-import { getQuotes } from '@features/quotes/quotes.server.tsx'
+import { ListQuotesView, getQuotes, quotesSearchSchema } from '@features/quotes'
 
 export const Route = createFileRoute('/quotes/')({
   validateSearch: (search) => quotesSearchSchema.parse(search),

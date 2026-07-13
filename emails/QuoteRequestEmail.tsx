@@ -9,7 +9,7 @@ import {
 import type { QuoteRequestFormValues } from '@features/quotes'
 import EmailLayout from './EmailLayout.tsx'
 import Logo from './Logo.tsx'
-import { heroTitle } from './styles.ts'
+import { button, heroTitle } from './styles.ts'
 
 const baseUrl = process.env.EMAIL_ASSETS_BASE_URL
 const appBaseUrl = process.env.APP_BASE_URL
@@ -90,14 +90,6 @@ const title = {
 
 const text = {
   margin: '.25rem 0',
-}
-
-const button = {
-  color: '#fff',
-  backgroundColor: '#057f37',
-  padding: '1rem 3rem',
-  borderRadius: '8px',
-  margin: '4rem 0 2rem 0',
 }
 
 export default QuoteRequestEmail
