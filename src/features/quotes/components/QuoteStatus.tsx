@@ -1,6 +1,6 @@
 import type { MantineColor } from '@mantine/core'
 import { Badge } from '@mantine/core'
-import type { QuoteStatus } from '@features/quotes'
+import type { QuoteStatus } from '../quotes.types.ts'
 
 const statusColors: Record<QuoteStatus, MantineColor> = {
   draft: 'yellow',

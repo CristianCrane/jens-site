@@ -1,14 +1,14 @@
-import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
-
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-
 import viteReact from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+import { statsPlugin } from 'vite-bundle-explorer/plugin'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 const config = defineConfig({
   plugins: [
     devtools(),
+    statsPlugin(),
     tsconfigPaths({ projects: ['./tsconfig.json'] }),
     tanstackStart({
       // https://tanstack.com/start/latest/docs/framework/react/guide/import-protection#full-configuration-reference
@@ -17,7 +17,7 @@ const config = defineConfig({
         behavior: 'error',
         client: {
           // Block specific npm packages from the client bundle
-          specifiers: [],
+          specifiers: ['**postgres**'],
           // Block server files from client
           files: ['**/server/**'],
         },

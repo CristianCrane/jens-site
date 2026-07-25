@@ -7,8 +7,11 @@ import {
   rooms,
   services,
 } from '@features/services'
+import type { quoteStatus } from './quotes.sql.ts'
 
 const jobTypeSchema = z.enum(services)
+
+export type QuoteStatus = (typeof quoteStatus.enumValues)[number]
 
 export const quoteDetailsSchema = z.object({
   jobType: jobTypeSchema,

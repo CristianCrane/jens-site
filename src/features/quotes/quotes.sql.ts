@@ -24,8 +24,6 @@ export const quoteStatus = pgEnum('quote_status', [
   'void',
 ])
 
-export type QuoteStatus = (typeof quoteStatus.enumValues)[number]
-
 export const quotes = pgTable(
   'quotes',
   {

@@ -1,4 +1,3 @@
-import type { QuoteStatus } from '#/db'
 import {
   addonConfigs,
   isHourlyServiceType,
@@ -9,7 +8,7 @@ import {
   serviceConfigs,
 } from '@features/services'
 import type { Addon, Room, RoomSize, Service } from '@features/services'
-import type { Quote, QuoteFormValues } from './quotes.types.ts'
+import type { Quote, QuoteFormValues, QuoteStatus } from './quotes.types.ts'
 
 export function calcRoomPrice(
   service: Service,

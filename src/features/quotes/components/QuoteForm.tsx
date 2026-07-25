@@ -22,8 +22,6 @@ import {
   IconUser,
   IconX,
 } from '@tabler/icons-react'
-import type { QuoteStatus } from '@features/quotes'
-import { isQuoteEditable } from '@features/quotes'
 import type { Addon, Room } from '@features/services'
 import {
   addons,
@@ -33,8 +31,9 @@ import {
   rooms,
   services,
 } from '@features/services'
-import type { QuoteFormValues } from '../quotes.types.ts'
+import type { QuoteFormValues, QuoteStatus } from '../quotes.types.ts'
 import { QuoteFormValuesSchema } from '../quotes.types.ts'
+import { isQuoteEditable } from '../quotes.utils.ts'
 import QuoteSummary from './QuoteSummary.tsx'
 import { SearchOptionsButton } from './SearchOptionsButton.tsx'
 

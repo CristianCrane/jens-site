@@ -1,6 +1,7 @@
 import { Outlet, createFileRoute, notFound } from '@tanstack/react-router'
 import { NotFoundView } from '#/errors'
-import { getQuote, quoteParamsSchema } from '@features/quotes'
+import { getQuote } from '#/features/quotes/quotes.server'
+import { quoteParamsSchema } from '@features/quotes'
 
 export const Route = createFileRoute('/quotes/$quoteId')({
   params: {
