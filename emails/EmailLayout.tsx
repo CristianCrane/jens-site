@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import { Body, Container, Head, Html } from '@react-email/components'
+import { Body, Container, Head, Html } from 'react-email'
 
 const body = {
   borderRadius: '1.8rem',

@@ -1,5 +1,5 @@
 import { toCurrencyFormat } from '#/utils'
-import { Column, Heading, Row, Section, Text } from '@react-email/components'
+import { Column, Heading, Row, Section, Text } from 'react-email'
 import type { Quote, QuoteFormValues } from '@features/quotes'
 import ContactFooter from './ContactFooter.tsx'
 import EmailLayout from './EmailLayout.tsx'

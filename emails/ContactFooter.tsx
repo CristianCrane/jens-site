@@ -1,4 +1,4 @@
-import { Column, Hr, Link, Row, Text } from '@react-email/components'
+import { Column, Hr, Link, Row, Text } from 'react-email'
 import { link } from './styles.ts'
 
 const footerText = {

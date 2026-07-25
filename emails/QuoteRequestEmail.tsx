@@ -1,11 +1,4 @@
-import {
-  Button,
-  Column,
-  Heading,
-  Img,
-  Row,
-  Text,
-} from '@react-email/components'
+import { Button, Column, Heading, Img, Row, Text } from 'react-email'
 import type { QuoteRequestFormValues } from '@features/quotes'
 import EmailLayout from './EmailLayout.tsx'
 import Logo from './Logo.tsx'

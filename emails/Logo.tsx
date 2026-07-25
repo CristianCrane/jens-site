@@ -1,4 +1,4 @@
-import { Column, Img, Row } from '@react-email/components'
+import { Column, Img, Row } from 'react-email'
 
 const baseUrl = process.env.EMAIL_ASSETS_BASE_URL
 
